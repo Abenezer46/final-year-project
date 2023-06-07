@@ -5,8 +5,8 @@
     $id = $_GET['deleteId'];
 
     $sql = "delete from `users` where uid=$id";
-
-    $result = mysqli_query($con,$sql);
+mysqli_query($con,$sql);
+    $result = 
 
     if($result){
         header("Location: ../pages/deleteUsers.php?success=User successfully deleted from the database");

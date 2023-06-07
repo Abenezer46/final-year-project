@@ -1,5 +1,28 @@
 <?php
 include '../app/dbconn.php';
+
+if(isset($_GET['addToCart'])){
+    $itemid = $_GET['addToCart'];
+    $sql = "select * from `store` where id = '$itemid' ";
+    $result = mysqli_query($con,$sql);
+    if($result){
+        while ($row = mysqli_fetch_assoc($result)) {
+            $i = $row['id'];
+            $n = $row['item_name'];
+            $t = $row['item_type'];
+            $p = $row['price'];
+
+            $sqlcart ="insert into `cart` (item_id,item_name,item_price,item_type,quantity)
+                        value('$itemid','$n','$p','$t','1')"; 
+            $res = mysqli_query($con,$sqlcart);
+            if($res){
+                header('Location: products.php?success= Item added to cart');
+            }else{
+                header('Location: products.php?error= Item not added to cart');
+            }
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +31,7 @@ include '../app/dbconn.php';
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>View Items</title>
+    <title>Update Items</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -37,8 +60,29 @@ include '../app/dbconn.php';
 <body>
     <div class="container py-5">
         <header class="text-center p-5">
-            <p class="display-4">View Item Page</p>
+            <p class="display-4">products</p>
         </header>
+        <?php if (isset($_GET['error'])) { ?>
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-1" role="img" aria-label="Danger:" style="width:25px; height:25px;">
+                    <use xlink:href="#exclamation-triangle-fill" />
+                </svg>
+                <div>
+                    <?php echo $_GET['error']; ?>
+                </div>
+            </div>
+        <?php } ?>
+
+        <?php if (isset($_GET['success'])) { ?>
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:" style="width:25px; height:25px;">
+                    <use xlink:href="#check-circle-fill" />
+                </svg>
+                <div>
+                    <?php echo $_GET['success']; ?>
+                </div>
+            </div>
+        <?php } ?>
 
         <table class="table my-4">
             <thead>
@@ -46,8 +90,8 @@ include '../app/dbconn.php';
                     <th scope="col">Item id</th>
                     <th scope="col">Item name</th>
                     <th scope="col">Item Type</th>
-                    <th scope="col">Item quantity</th>
                     <th scope="col">Item price</th>
+                    <th scope="col">operations</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,7 +104,6 @@ include '../app/dbconn.php';
                         $id = $row['id'];
                         $name = $row['item_name'];
                         $type = $row['item_type'];
-                        $quantity = $row['quantity'];
                         $price = $row['price'];
 
                         echo '
@@ -68,8 +111,19 @@ include '../app/dbconn.php';
                           <th scope="row">' . $id . '</th>
                           <td>' . $name . '</td>
                           <td>' . $type . '</td>
-                          <td>' . $quantity . '</td>
                           <td>' . $price . '</td>
+                          <td>
+
+                            <div>
+
+                              <a href="products.php?addToCart=' . $id . '" 
+                                 class="btn btn-danger">
+                                 Add to cart
+                              </a>
+
+                           </div>
+
+                          </td>
                         </tr>
                         ';
                     }
@@ -78,23 +132,10 @@ include '../app/dbconn.php';
             </tbody>
         </table>
         <div>
-            <?php
-            if (isset( $_GET['seller'] ) ) {
-                # code...
-                echo '
-                     <a href="../sellerPage.php" class="btn btn-primary">
-                        Go back
-                    </a>
-                ';
-            }else{
-                echo'
-                <a href="storePage.php" class="btn btn-primary">
-                Go back
-                </a>
-                ';
-            }
-            ?>
 
+            <a href="../app/cart.php" class="btn btn-danger">
+                show cart
+            </a>
 
         </div>
     </div>

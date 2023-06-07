@@ -2,14 +2,14 @@
 <html>
 
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Add New Item</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <script src='main.js'></script>
+    <script src="main.js"></script>
 </head>
 
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -28,30 +28,30 @@
 </svg>
 
 <body>
-    <div class="container d-flex justify-content-center align-items-center" style='min-height: 100vh;'>
-        <form class="px-5 py-3 shadow" action='../app/addItem.php' method="post" style="width: 50rem;">
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <form class="px-5 py-3 shadow" action="../app/addItem.php" method="post" style="width: 50rem;">
 
             <h1 class="text-center pb-4 display-4">Add New Item</h1>
 
-            <?php if (isset($_GET['error'])) { ?>
+            <?php if (isset($_GET["error"])) { ?>
                 <div class="alert alert-danger d-flex align-items-center" role="alert">
                     <svg class="bi flex-shrink-0 me-1" role="img" aria-label="Danger:" style="width:25px; height:25px;">
                         <use xlink:href="#exclamation-triangle-fill" />
                     </svg>
                     <div>
-                        <?php echo $_GET['error']; ?>
+                        <?php echo $_GET["error"]; ?>
                     </div>
                 </div>
             <?php } ?>
 
 
-            <?php if (isset($_GET['success'])) { ?>
+            <?php if (isset($_GET["success"])) { ?>
                 <div class="alert alert-success d-flex align-items-center" role="alert">
                     <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:" style="width:25px; height:25px;">
                         <use xlink:href="#check-circle-fill" />
                     </svg>
                     <div>
-                        <?php echo $_GET['success']; ?>
+                        <?php echo $_GET["success"]; ?>
                     </div>
                 </div>
             <?php } ?>
@@ -76,8 +76,8 @@
                 <input type="number" class="form-control" name="priceInput" autocomplete="off">
             </div>
 
-            <button type="submit" name='submit' class="btn btn-primary">Save</button>
-            <button type='submit' name='back' class='btn btn-danger' style="margin-left:10px;">Back</button>
+            <button type="submit" name="submit" class="btn btn-primary">Save</button>
+            <button type="submit" name="back" class="btn btn-danger" style="margin-left:10px;">Back</button>
        
         </form>
 

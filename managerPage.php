@@ -1,3 +1,14 @@
+<?php
+session_start();
+if (!$_SESSION["auth"]) {
+    # code...
+    header('Location: index.php');
+    exit;
+}elseif($_SESSION['auth'] != 'manager'){
+    header('Location: index.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html>
 
