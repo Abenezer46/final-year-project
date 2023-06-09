@@ -41,6 +41,7 @@
             </select>
          </div>
          <button type="submit" class="btn btn-primary">login</button>
+         <a href="./forgotPassword">Forgot Password</a>
       </form>
    </div>
 

@@ -33,8 +33,25 @@ if (isset($_GET['sell'])) {
     $sql = 'select * from `cart`';
     $result = mysqli_query($con, $sql);
     if ($result) {
+
+        $product = array();
+        $id = array();
+        $price = array();
+        $tquantity = 0;
         while ($row = mysqli_fetch_assoc($result)) {
-            
+            $id[] = $row['item_id'];
+            $unitPrice = $row['item_price'];
+            $unitQuantity = $row['quantity'];
+
+            $id = $id + $itemId;
+
+            $tquantity = $tquantity + $unitQuantity;
+
+            var_dump($id);
+
+            echo $tquantity;
+
+
         }
         //header('Location: cart.php?success= item removed from cart.');
     } else {
@@ -120,8 +137,9 @@ if (isset($_GET['sell'])) {
                 $sql = 'select * from `cart`';
                 $result = mysqli_query($con, $sql);
                 if ($result) {
+
+                    
                     while ($row = mysqli_fetch_assoc($result)) {
-                        print_r($row);
                         $id = $row['id'];
                         $i = $row['item_id'];
                         $n = $row['item_name'];

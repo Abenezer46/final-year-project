@@ -22,8 +22,9 @@ if (isset($_POST['userNameInput']) && isset($_POST['inputPassword'])) {
         $address = $row['address'];
         $password = $row['password'];
         $role = $row['urole'];
+
         if ($pass == md5($password)) {
-          $_SESSION["username"] = $userName;
+          $_SESSION["uid"] = $id;
 
           $mydate = getdate(date("U"));
           $intime = "$mydate[hours]:$mydate[minutes] , $mydate[weekday], $mydate[month] $mydate[mday], $mydate[year]";
