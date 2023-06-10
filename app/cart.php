@@ -29,33 +29,63 @@ if (isset($_GET['removeFromCart'])) {
 }
 
 if (isset($_GET['sell'])) {
-    # code...
-    $sql = 'select * from `cart`';
+    $sql = "select * from `cart`";
+
     $result = mysqli_query($con, $sql);
+    
+    // Create a multidimensional array to store the item information
+    $items = array();
+    $price = 0;
     if ($result) {
-
-        $product = array();
-        $id = array();
-        $price = array();
-        $tquantity = 0;
         while ($row = mysqli_fetch_assoc($result)) {
-            $id[] = $row['item_id'];
-            $unitPrice = $row['item_price'];
-            $unitQuantity = $row['quantity'];
-
-            $id = $id + $itemId;
-
-            $tquantity = $tquantity + $unitQuantity;
-
-            var_dump($id);
-
-            echo $tquantity;
-
-
+            $item = array(
+                'item_id' => $row['item_id'],
+                'item_price' => $row['item_price'],
+                'item_quantity' => $row['quantity']
+            );
+    
+            $price = $price + $row['item_price'];
+            $items[] = $item;
         }
-        //header('Location: cart.php?success= item removed from cart.');
-    } else {
-        //header('Location: cart.php?error= item not removed from cart.');
+
+        $date = date('m/d/Y h:i:s a');
+        // Insert the items and date/time into the database table
+        if (empty($items)) {
+            # code...
+            header("Location:../pages/products.php?error=cart is empty");
+            exit();
+        }
+        else{
+            $sql = "insert INTO `sells` (items, date_time, total_price) VALUES ('". json_encode($items) . "', '" . $date . "', '".$price."')";
+
+            $result = mysqli_query($con, $sql);
+            if ($result) {
+                # code...
+                $items = array();
+                $sql = "delete from `cart`";
+                $result = mysqli_query($con, $sql);
+                if($result){
+                    header("Location:../pages/products.php?success=sells complete");
+                }else{
+                   header("Location:../app/cart.php?error=sells not complete");
+                }
+    
+            }
+        }
+    
+    }
+}
+
+if (isset($_GET['removeCart'])) {
+    # code...
+    $items = array();
+    $sql = "delete from `cart`";
+    $result = mysqli_query($con, $sql);
+    if($result){
+        header("Location:../pages/products.php?success=cart cleared successfully");
+    }
+    else{
+        header("Location:../app/cart.php?error=cart not cleared");
     }
 }
 
@@ -136,9 +166,11 @@ if (isset($_GET['sell'])) {
                 <?php
                 $sql = 'select * from `cart`';
                 $result = mysqli_query($con, $sql);
+                $c = 0;
                 if ($result) {
-
-                    
+                    $c = 1;
+                    $price = 0;
+                    $quantity = 0;
                     while ($row = mysqli_fetch_assoc($result)) {
                         $id = $row['id'];
                         $i = $row['item_id'];
@@ -146,6 +178,11 @@ if (isset($_GET['sell'])) {
                         $t = $row['item_type'];
                         $p = $row['item_price'];
                         $quant = $row['quantity'];
+
+                        $quantity = $quantity + $quant;
+                        $price = $price + $p;
+
+                        $price = $quantity * $price;
                         echo '
                         <tr>
                           <th scope="row">' . $id . '</th>
@@ -157,7 +194,7 @@ if (isset($_GET['sell'])) {
                           <td>
                             <form method="POST">
                                 <input name="id" value=' . $id . ' style="display:none;"/>
-                                <input type="number" name="quantity" value= ' . $quant . ' />
+                                <input type="number" name="quantity" value= ' . $quant . ' class="narrow-input" style="width:50px;"/>
                                 <input type="submit" name="update" value="update">
                             </form>
                           </td>
@@ -168,13 +205,22 @@ if (isset($_GET['sell'])) {
                                  class="btn btn-danger">
                                  remove from cart
                               </a>
-                              
-                           </div>
-
-                          </td>
+                            </div>
+                           </td>
                         </tr>
                         ';
+
                     }
+                    echo '
+                        <tr style="border-top: 1px solid;">
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Total Price</th>
+                            <th>' . $price . '</th>
+                            <th>Total Quantity</th>
+                            <th> ' . $quantity . '</th>
+                        </tr>';
                 }
                 ?>
             </tbody>

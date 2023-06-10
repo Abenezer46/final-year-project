@@ -25,8 +25,10 @@ if (isset($_POST['userNameInput']) && isset($_POST['inputPassword'])) {
 
         if ($pass == md5($password)) {
           $_SESSION["uid"] = $id;
+          $_SESSION["username"] = $userName;
 
           $mydate = getdate(date("U"));
+          
           $intime = "$mydate[hours]:$mydate[minutes] , $mydate[weekday], $mydate[month] $mydate[mday], $mydate[year]";
 
           $sql = "update `users` SET `intime`='$intime' where `uid` = '$id'";

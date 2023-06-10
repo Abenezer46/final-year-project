@@ -1,23 +1,23 @@
 <?php
 include '../app/dbconn.php';
 
-if(isset($_GET['addToCart'])){
+if (isset($_GET['addToCart'])) {
     $itemid = $_GET['addToCart'];
     $sql = "select * from `store` where id = '$itemid' ";
-    $result = mysqli_query($con,$sql);
-    if($result){
+    $result = mysqli_query($con, $sql);
+    if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
             $i = $row['id'];
             $n = $row['item_name'];
             $t = $row['item_type'];
             $p = $row['price'];
 
-            $sqlcart ="insert into `cart` (item_id,item_name,item_price,item_type,quantity)
-                        value('$itemid','$n','$p','$t','1')"; 
-            $res = mysqli_query($con,$sqlcart);
-            if($res){
+            $sqlcart = "insert into `cart` (item_id,item_name,item_price,item_type,quantity)
+                        value('$itemid','$n','$p','$t','1')";
+            $res = mysqli_query($con, $sqlcart);
+            if ($res) {
                 header('Location: products.php?success= Item added to cart');
-            }else{
+            } else {
                 header('Location: products.php?error= Item not added to cart');
             }
         }
@@ -133,10 +133,13 @@ if(isset($_GET['addToCart'])){
         </table>
         <div>
 
-            <a href="../app/cart.php" class="btn btn-danger">
+            <a href="../app/cart.php" class="btn btn-success">
                 show cart
             </a>
 
+            <a href="../sellerPage.php" class="btn btn-danger">
+                back
+            </a>
         </div>
     </div>
 </body>

@@ -22,19 +22,39 @@ if ($result) {
     }
 
     echo $price;
-
     echo "<br>";
-
     echo json_encode($items);
+    $date = date('m/d/Y h:i:s a');
+    echo $date;
+    // Insert the items and date/time into the database table
+    if (empty($items)) {
+        # code...
+        header("Location:../pages/products.php?error=cart is empty");
+        exit();
+    }
+    else{
+        $sql = "insert INTO sells (items, date_time, total_price, user) VALUES ('" . json_encode($items) . "', '" . $date . "', '".$price."')";
+        $result = mysqli_query($con, $sql);
+        if ($result) {
+            # code...
+            $items = array();
+            $sql = "delete from `cart`";
+            $result = mysqli_query($con, $sql);
+            if($result){
+                header("Location:../pages/cart.php?success=sells complete");
+            }else{
+                header("Location:../pages/cart.php?error=sells not complete");
+            }
+
+        }else {
+            header("Location:../test/test.php?error=could not complete sells");
+        }
+    }
+
 }
 
 //Get the current date and time in 12-hour format
-$date = date('m/d/Y h:i:s a');
 
-// Insert the items and date/time into the database table
-$sql = "insert INTO sells (items, date_time, total_price, user) VALUES ('" . json_encode($items) . "', '" . $date . "')";
-
-$result = mysqli_query($con, $sql);
 ?>
 
 
@@ -140,46 +160,7 @@ $result = mysqli_query($con, $sql);
                           <td>
                             <form method="POST">
                                 <input name="id" value=' . $id . ' style="display:none;"/>
-                                <input type="number" name="quantity" value= ' . $quant . ' class="narTo adjust the width of an input field, you can use CSS. Here is an example:
-
-                                Let's say you have an input field with the ID `myInput`, and you want to make it 50% of the width of its parent container. You can add the following CSS code to your stylesheet:
-                                
-                                ```css
-                                #myInput {
-                                    width: 50%;
-                                }
-                                ```
-                                
-                                This will set the width of the `myInput` field to 50% of its parent container's width. You can adjust the percentage value to your desired width.
-                                
-                                Alternatively, you can also set the width of the input field in pixels. For example:
-                                
-                                ```css
-                                #myInput {
-                                    width: 300px;
-                                }
-                                ```
-                                
-                                This will set the width of the `myInput` field to 300 pixels.
-                                
-                                Note that if you have multiple input fields and you want to adjust their widths differently, you can use different CSS selectors to target each input field individually. For example, you can use class selectors:
-                                
-                                ```html
-                                <input type="text" class="wide-input" />
-                                <input type="text" class="narrow-input" />
-                                ```
-                                
-                                ```css
-                                .wide-input {
-                                    width: 80%;
-                                }
-                                
-                                .narrow-input {
-                                    width: 50%;
-                                }
-                                ```
-                                
-                                This will make the first input field 80% wide and the second input field 50% wide." />
+                                <input type="number" name="quantity" value= ' . $quant . ' class="narrow-input" style="width:50px;"/>
                                 <input type="submit" name="update" value="update">
                             </form>
                           </td>
@@ -194,7 +175,7 @@ $result = mysqli_query($con, $sql);
                            </td>
                         </tr>
                         ';
-                        
+
                     }
                     echo '
                         <tr style="border-top: 1px solid;">
@@ -202,9 +183,9 @@ $result = mysqli_query($con, $sql);
                             <th></th>
                             <th></th>
                             <th>Total Price</th>
-                            <th>'.$price.'</th>
+                            <th>' . $price . '</th>
                             <th>Total Quantity</th>
-                            <th> '.$quantity.'</th>
+                            <th> ' . $quantity . '</th>
                         </tr>';
                 }
                 ?>
