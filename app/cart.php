@@ -3,6 +3,8 @@ include '../app/dbconn.php';
 
 if (isset($_POST['update'])) {
     # code...
+    $user = $_SESSION["username"];
+    echo $user;
     $cartid = $_POST['id'];
     $quant = $_POST['quantity'];
     $sql = "update `cart` SET `quantity`='$quant' where `id` = '$cartid'";
@@ -56,7 +58,9 @@ if (isset($_GET['sell'])) {
             exit();
         }
         else{
-            $sql = "insert INTO `sells` (items, date_time, total_price) VALUES ('". json_encode($items) . "', '" . $date . "', '".$price."')";
+            $user = $_SESSION["username"];
+            $sql = "insert INTO `sells` (items, date_time, total_price, user) 
+                    VALUES ('". json_encode($items) . "', '" . $date . "', '".$price."', '".$user."')";
 
             $result = mysqli_query($con, $sql);
             if ($result) {
@@ -97,7 +101,7 @@ if (isset($_GET['removeCart'])) {
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Update Items</title>
+    <title>cart Page</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -202,7 +206,7 @@ if (isset($_GET['removeCart'])) {
                             <div>
 
                               <a href="cart.php?removeFromCart=' . $id . '" 
-                                 class="btn btn-danger">
+                                 class="btn btn-outline-danger">
                                  remove from cart
                               </a>
                             </div>
@@ -227,13 +231,13 @@ if (isset($_GET['removeCart'])) {
         </table>
         <div>
 
-            <a href="cart.php?sell" class="btn btn-success">
+            <a href="cart.php?sell" class="btn btn-outline-success">
                 done
             </a>
-            <a href="../pages/products.php" class="btn btn-danger">
+            <a href="../pages/products.php" class="btn btn-outline-danger">
                 back
             </a>
-            <a href="cart.php?removeCart" class="btn btn-danger">
+            <a href="cart.php?removeCart" class="btn btn-outline-danger">
                 clear cart
             </a>
         </div>

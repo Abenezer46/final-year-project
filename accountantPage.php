@@ -38,7 +38,7 @@ if (!$_SESSION["auth"]) {
             <i class="far fa-money-bill-alt" style='margin-top:15px; font-size:48px;'></i>
             <div class="card-body">
                 <h5 class="card-title mb-3">view sells</h5>
-                <a href="./pages/sells.php" class="btn btn-primary">Go to Page</a>
+                <a href="./pages/sells.php?accountant" class="btn btn-primary">Go to Page</a>
             </div>
         </div>
 
@@ -46,7 +46,7 @@ if (!$_SESSION["auth"]) {
             <i class="fas fa-warehouse" style='margin-top:15px; font-size:48px;'></i>
             <div class="card-body">
                 <h5 class="card-title mb-3">view store</h5>
-                <a href="./pages/viewItem.php" class="btn btn-primary">Go to Page</a>
+                <a href="./pages/viewItem.php?accountant" class="btn btn-primary">Go to Page</a>
             </div>
         </div>
 

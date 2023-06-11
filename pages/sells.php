@@ -8,7 +8,7 @@ include '../app/dbconn.php';
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>View Items</title>
+    <title>View Sells</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -37,39 +37,54 @@ include '../app/dbconn.php';
 <body>
     <div class="container py-5">
         <header class="text-center p-5">
-            <p class="display-4">View Item Page</p>
+            <p class="display-4">View Sells</p>
         </header>
 
         <table class="table my-4">
             <thead>
                 <tr style="border-top: 1px solid;">
-                    <th scope="col">Item id</th>
-                    <th scope="col">Item name</th>
-                    <th scope="col">Item Type</th>
-                    <th scope="col">Item quantity</th>
-                    <th scope="col">Item price</th>
+                    <th scope="col">Sells id</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Date and Time of cells</th>
+                    <th scope="col">Total price</th>
+                    <th scope="col">users</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $sql = 'select * from `store`';
+                $sql = 'select * from `sells`';
                 $result = mysqli_query($con, $sql);
                 if ($result) {
 
                     while ($row = mysqli_fetch_assoc($result)) {
                         $id = $row['id'];
-                        $name = $row['item_name'];
-                        $type = $row['item_type'];
-                        $quantity = $row['quantity'];
-                        $price = $row['price'];
+                        $items = $row['items'];
+                        $date = $row['date_time'];
+                        $price = $row['total_price'];
+                        $user = $row['user'];
 
+                        $items = json_decode($items);
+
+                        $item_ids = array();
+
+                        foreach ($items as $item) {
+                            # code...
+                            $item_ids[] = $item->item_id;
+                        }
+                        $ids = implode(",", $item_ids);
+                        
                         echo '
                         <tr>
                           <th scope="row">' . $id . '</th>
-                          <td>' . $name . '</td>
-                          <td>' . $type . '</td>
-                          <td>' . $quantity . '</td>
+                          ';
+                        echo '
+                          <td>' . $ids . '</td>
+                          ';
+
+                        echo '
+                          <td>' . $date . '</td>
                           <td>' . $price . '</td>
+                          <td>' . $user . '</td>
                         </tr>
                         ';
                     }
@@ -79,26 +94,18 @@ include '../app/dbconn.php';
         </table>
         <div>
             <?php
-            if (isset( $_GET['seller'] ) ) {
+            if (isset($_GET['accountant'])) {
                 # code...
                 echo '
-                     <a href="../sellerPage.php" class="btn btn-primary">
+                    <a href="../accountantPage.php" class="btn btn-primary">
+                      Go back
+                    </a>
+               ';
+            } else {
+                echo '
+                    <a href="../sellerPage.php" class="btn btn-primary">
                         Go back
                     </a>
-                ';
-            }elseif (isset($_GET['accountant'])) {
-                # code...
-                echo '
-                <a href="../accountantPage.php" class="btn btn-primary">
-                   Go back
-               </a>
-           ';
-            }
-            else{
-                echo'
-                <a href="storePage.php" class="btn btn-primary">
-                Go back
-                </a>
                 ';
             }
             ?>

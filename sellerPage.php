@@ -61,16 +61,8 @@ if (!$_SESSION["auth"]) {
         <div class="card mb-3 text-center shadow" style="display:flex; align-items:center; width: 18rem;">
             <i class="fas fa-eye-dropper" style='margin-top:15px; font-size:48px;'></i>
             <div class="card-body">
-                <h5 class="card-title mb-3">Update Sells</h5>
-                <a href="../app/sells.php?update" class="btn btn-primary">Go to Page</a>
-            </div>
-        </div>
-
-        <div class="card mb-3 text-center shadow" style="display:flex; align-items:center; width: 18rem;">
-            <i class="far fa-trash-alt" style='margin-top:15px; font-size:48px;'></i>
-            <div class="card-body">
-                <h5 class="card-title mb-3">Delete sells</h5>
-                <a href="../pages/sells.php?delete" class="btn btn-primary">Go to Page</a>
+                <h5 class="card-title mb-3">View Cart</h5>
+                <a href="./app/cart.php" class="btn btn-primary">Go to Page</a>
             </div>
         </div>
 
@@ -78,7 +70,15 @@ if (!$_SESSION["auth"]) {
             <i class="far fa-eye" style='margin-top:15px; font-size:48px;'></i>
             <div class="card-body">
                 <h5 class="card-title mb-3">View sells</h5>
-                <a href="../app/sells.php?view" class="btn btn-primary">Go to Page</a>
+                <a href="./pages/sells.php" class="btn btn-primary">Go to Page</a>
+            </div>
+        </div>
+
+        <div class="card mb-3 text-center shadow" style="display:flex; align-items:center; width: 18rem;">
+            <i class="far fa-eye" style='margin-top:15px; font-size:48px;'></i>
+            <div class="card-body">
+                <h5 class="card-title mb-3">View items</h5>
+                <a href="./pages/viewItem.php?seller" class="btn btn-primary">Go to Page</a>
             </div>
         </div>
 

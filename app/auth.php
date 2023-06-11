@@ -50,7 +50,7 @@ if (isset($_POST['userNameInput']) && isset($_POST['inputPassword'])) {
         }
       }
     } else {
-      header('Location: ../pages/login.php?error=Incorrect password or username');
+      header('Location: ./pages/login.php?error=Incorrect password or username');
     }
   }
 }
