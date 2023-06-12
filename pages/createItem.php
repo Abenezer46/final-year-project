@@ -1,3 +1,14 @@
+<?php
+session_start();
+if (!$_SESSION["auth"]) {
+    # code...
+    header('Location: index.php');
+    exit;
+}elseif($_SESSION['auth'] != 'manager'){
+    header('Location: index.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -9,7 +20,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <script src="main.js"></script>
+        <script src='./js/main.js'></script>
 </head>
 
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">

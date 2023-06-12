@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_POST['submit'])) {
+if (isset($_GET['submit'])) {
     # code...
     header('Location:./pages/login.php');
 }
@@ -61,8 +61,8 @@ if (isset($_POST['submit'])) {
                         <a class="nav-link active" href="#" style="color:#ffffff;">Features</a>
                     </li>
                 </ul>
-                <form class="d-flex" role="search" method="post">
-                    <button class="btn btn-success" type="submit">Login</button>
+                <form class="d-flex" role="search" method="get">
+                    <button class="btn btn-success" type="submit" name="submit">Login</button>
                 </form>
             </div>
         </div>

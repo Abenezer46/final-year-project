@@ -1,3 +1,14 @@
+<?php
+session_start();
+if (!$_SESSION["auth"]) {
+    # code...
+    header('Location: index.php');
+    exit;
+} elseif ($_SESSION['auth'] != 'manager') {
+    header('Location: index.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -12,7 +23,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src='main.js'></script>
+    <script src='./js/main.js'></script>
 </head>
 
 <body>
@@ -55,7 +66,13 @@
         </div>
     </div>
 
+    <div style="width:100%; display:flex; flex-wrap:wrap; align-items:center; justify-content:center;">
 
+        <a href="../managerPage.php" class="btn btn-danger btn-lg">
+            Go back
+        </a>
+
+    </div>
 
 </body>
 

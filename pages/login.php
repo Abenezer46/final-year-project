@@ -9,7 +9,6 @@
    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-   <script src='main.js'></script>
 </head>
 
 <body>
@@ -31,17 +30,7 @@
             <label for="exampleInputPassword1" class="form-label">Password</label>
             <input type="password" class="form-control" id="inputPassword" name="inputPassword" />
          </div>
-         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Role</label>
-            <select class="form-select" aria-label="Default select example">
-               <option selected value="1">manager</option>
-               <option value="2">seller</option>
-               <option value="3">accountant</option>
-               <option value="4">admin</option>
-            </select>
-         </div>
          <button type="submit" class="btn btn-primary">login</button>
-         <a href="./forgotPassword">Forgot Password</a>
       </form>
    </div>
 

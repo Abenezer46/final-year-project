@@ -1,5 +1,16 @@
 <?php
 include '../app/dbconn.php';
+session_start();
+if (!isset($_SESSION['auth'])) {
+    header('Location: login.php');
+    exit;
+  }
+  
+  // Check if the auth session variable does not have the value "manager", "seller", or "accountant"
+  if ($_SESSION['auth'] !== 'manager' && $_SESSION['auth'] !== 'admin') {
+    header('Location: login.php');
+    exit;
+  }
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +27,7 @@ include '../app/dbconn.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src='main.js'></script>
+        <script src='./js/main.js'></script>
 </head>
 
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">

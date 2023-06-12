@@ -1,11 +1,15 @@
 <?php
 session_start();
-if (!$_SESSION["auth"]) {
-    # code...
-    header('Location: index.php');
+
+// Check if the auth session variable is not set
+if (!isset($_SESSION['auth'])) {
+    header('Location: login.php');
     exit;
-}elseif($_SESSION['auth'] != "admin"){
-    header('Location: index.php');
+}
+
+// Check if the auth session variable does not have the value "manager", "seller", or "accountant"
+if ($_SESSION['auth'] !== 'manager' && $_SESSION['auth'] !== 'admin') {
+    header('Location: login.php');
     exit;
 }
 ?>
@@ -24,15 +28,15 @@ if (!$_SESSION["auth"]) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src='main.js'></script>
+    <script src='./js/main.js'></script>
 </head>
 
 <body>
     <header class="text-center p-5">
         <p class="display-4">Admin Page</p>
     </header>
-    <div class="p-3 m-0 border-0 bd-example" 
-         style="width:100%; display:flex; flex-wrap:wrap; gap:25px; align-items:center; justify-content:center;">
+    <div class="p-3 m-0 border-0 bd-example"
+        style="width:100%; display:flex; flex-wrap:wrap; gap:25px; align-items:center; justify-content:center;">
 
         <div class="card mb-3 text-center shadow" style="display:flex; align-items:center; width: 18rem;">
             <i class='fas fa-id-badge' style='margin-top:15px; font-size:48px;'></i>
@@ -67,8 +71,22 @@ if (!$_SESSION["auth"]) {
         </div>
     </div>
 
+    <?php
+    if ($_SESSION['auth'] == 'manager') {
+        # code...
+        echo '
+        <div style="width:100%; display:flex; flex-wrap:wrap; align-items:center; justify-content:center;">
 
+        <a href="./managerPage.php" class="btn btn-danger btn-lg">
+            Go back
+        </a>
 
+    </div>';
+    }
+    ?>
+    <script>
+
+    </script>
 </body>
 
 </html>
