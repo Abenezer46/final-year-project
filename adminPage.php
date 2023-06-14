@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "./app/dbconn.php";
 
 // Check if the auth session variable is not set
 if (!isset($_SESSION['auth'])) {
@@ -16,8 +17,21 @@ if ($_SESSION['auth'] !== 'manager' && $_SESSION['auth'] !== 'admin') {
 if (isset($_POST['submit'])) {
     # code...
     echo 'logout';
-    $_SESSION['auth'] = "";
-    header("Location: ./index.php");
+    $id = $_SESSION['uid'];
+
+    $mydate = getdate(date("U"));
+
+    $outtime = "$mydate[hours]:$mydate[minutes] , $mydate[weekday], $mydate[month] $mydate[mday], $mydate[year]";
+
+    $sql = "update `users` SET `outtime`='$outtime' where `uid` = '$id'";
+    $result = mysqli_query($con, $sql);
+    if ($result) {
+        echo "hello";
+        $_SESSION['auth'] = "";
+        $_SESSION['uid'] = 0;
+        header("Location: ./index.php");
+    }
+
 }
 ?>
 
@@ -39,9 +53,26 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body class="adminPage p-3 m-0 border-0 bd-example m-0 border-0">
+    <?php
+    if (isset($_GET['mana'])) {
+        # code...
+        echo '<body class="managerPage p-3 m-0 border-0 bd-example m-0 border-0" style="background-color:#5BA877;">';
+    } else {
+        echo '<body class="adminPage p-3 m-0 border-0 bd-example m-0 border-0">';
+    }
+    ?>
     <nav class="navbar navbar-expand-lg" style="background-color:#fff; color:black; border-radius: 5px;">
         <div class="container-fluid">
-            <a class="navbar-brand" style="color: #03a9f4;" href="./index.php">FMS</a>
+
+            <?php
+            if (isset($_GET['mana'])) {
+                # code...
+                echo '<a class="navbar-brand" style="color: #5BA877;" href="./index.php">FMS</a>';
+            } else {
+                echo '<a class="navbar-brand" style="color: #023C40;" href="./index.php">FMS</a>';
+            }
+            ?>
+            
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
                 aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,19 +81,19 @@ if (isset($_POST['submit'])) {
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="color:#ffffff;">
 
-                <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link active" href="#" style="color:black;">
                             <?php
                             echo ucfirst($_SESSION['auth']);
-                                ?>
+                            ?>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disable" aria-current="page" href="#" style="color:black;">
-                            
+
                             <?php
                             echo ucfirst($_SESSION['user']);
-                                ?>
+                            ?>
                         </a>
                     </li>
 

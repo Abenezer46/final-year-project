@@ -27,7 +27,41 @@ if (!$_SESSION["auth"]) {
         <script src='./js/main.js'></script>
 </head>
 
-<body>
+<body class="accountantPage p-3 m-0 border-0 bd-example m-0 border-0" >
+    <nav class="navbar navbar-expand-lg" style="background-color:#fff; color:black; border-radius: 5px;">
+        <div class="container-fluid">
+            <a class="navbar-brand" style="color: #023C40;" href="./index.php">FMS</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="color:#ffffff;">
+
+                <li class="nav-item">
+                        <a class="nav-link active" href="#" style="color:black;">
+                            <?php
+                            echo ucfirst($_SESSION['auth']);
+                                ?>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disable" aria-current="page" href="#" style="color:black;">
+                            
+                            <?php
+                            echo ucfirst($_SESSION['user']);
+                                ?>
+                        </a>
+                    </li>
+
+                </ul>
+                <form class="d-flex" role="search" method="post">
+                    <button class="btn" type="submit" name="submit">logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
     <header class="text-center p-5">
         <p class="display-4">Accountant Page</p>
     </header>

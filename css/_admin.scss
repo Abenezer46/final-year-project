@@ -1,6 +1,10 @@
 .adminPage {
-  background: #03a9f4;
+  background: #023C40;
 
+  p,th,td{
+    color: #fff;
+  }
+  
   .btn {
     background-color: #f44336;
     color: #fff;
@@ -9,6 +13,10 @@
       border: 2px solid #f44336;
       color: #f44336;
     }
+  }
+
+  p{
+    color: #fff;
   }
   .card {
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2);
