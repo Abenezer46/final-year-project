@@ -25,7 +25,7 @@ if (isset($_POST['userNameInput']) && isset($_POST['inputPassword'])) {
 
         if ($pass == md5($password)) {
           $_SESSION["uid"] = $id;
-          $_SESSION["username"] = $userName;
+          $_SESSION["user"] = $row['username'];
 
           $mydate = getdate(date("U"));
           
