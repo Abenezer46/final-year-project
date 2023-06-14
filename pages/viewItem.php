@@ -78,9 +78,8 @@ if (isset($_POST['logout'])) {
                     ';
     } elseif (isset($_GET['accountant'])) {
         # code...
-        echo '
-        <body class="accountantPage p-3 m-0 border-0 bd-example m-0 border-0" style="background-color: #585BB8;">
-               ';
+        echo '<body class="managerPage p-3 m-0 border-0 bd-example m-0 border-0" style="background-color:#DF804C;">
+    ';
     } else {
         echo '
         <body class="managerPage p-3 m-0 border-0 bd-example m-0 border-0" style="background-color:#5BA877;">
@@ -89,7 +88,16 @@ if (isset($_POST['logout'])) {
     ?>
      <nav class="navbar navbar-expand-lg" style="background-color:#fff; color:black; border-radius: 5px;">
         <div class="container-fluid">
-            <a class="navbar-brand" style="color: #585BB8;" href="./index.php">FMS</a>
+            <?php
+            if ($_SESSION['auth'] == 'seller') {
+                echo '<a class="navbar-brand" style="color: #585BB8;" href="./index.php">FMS</a>';
+            }elseif($_SESSION['auth'] == 'accountant'){
+                echo '<a class="navbar-brand" style="color: #DF804C;" href="./index.php">FMS</a>';
+            }else{
+                echo '<a class="navbar-brand" style="color: #5BA877;" href="./index.php">FMS</a>';
+            }
+            ?>
+
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
                 aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -116,7 +124,7 @@ if (isset($_POST['logout'])) {
 
                 </ul>
                 <form class="d-flex" role="search" method="post">
-                    <button class="btn btn-pri" type="submit" name="logout">logout</button>
+                    <button class="btn btn-danger" type="submit" name="logout">logout</button>
                 </form>
             </div>
         </div>

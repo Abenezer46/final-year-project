@@ -106,7 +106,14 @@ if (isset($_POST['submit'])) {
         </div>
     </nav>
     <header class="text-center p-5">
-        <p class="display-4">Admin Page</p>
+        <?php
+        if($_SESSION['auth'] == 'manager'){
+            echo'<p class="display-4">Manage Users </p>';
+        } else{
+           echo'<p class="display-4">Admin Page</p>';
+        }
+        ?>
+
     </header>
     <div class="p-3 m-0 border-0 bd-example"
         style="width:100%; display:flex; flex-wrap:wrap; gap:25px; align-items:center; justify-content:center;">

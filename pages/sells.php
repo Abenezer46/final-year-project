@@ -65,8 +65,16 @@ if (!isset($_SESSION['auth'])) {
             d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
     </symbol>
 </svg>
-
-<body class="sellerPage p-3 m-0 border-0 bd-example m-0 border-0" style="background-color: #585BB8;">
+<?php
+if ($_SESSION['auth'] == 'accountant') {
+    # code...
+    echo '<body class="managerPage p-3 m-0 border-0 bd-example m-0 border-0" style="background-color:#DF804C;">
+    ';
+}else{
+    echo '<body class="sellerPage p-3 m-0 border-0 bd-example m-0 border-0" style="background-color: #585BB8;">
+    ';
+}
+?>
 
     <nav class="navbar navbar-expand-lg" style="background-color:#fff; color:black; border-radius: 5px;">
         <div class="container-fluid">
@@ -97,7 +105,7 @@ if (!isset($_SESSION['auth'])) {
 
                 </ul>
                 <form class="d-flex" role="search" method="post">
-                    <button class="btn" type="submit" name="logout">logout</button>
+                    <button class="btn btn-danger" type="submit" name="logout">logout</button>
                 </form>
             </div>
         </div>
@@ -164,13 +172,13 @@ if (!isset($_SESSION['auth'])) {
             if (isset($_GET['accountant'])) {
                 # code...
                 echo '
-                    <a href="../accountantPage.php" class="btn btn-primary">
+                    <a href="../accountantPage.php" class="btn btn-pri">
                       Go back
                     </a>
                ';
             } else {
                 echo '
-                    <a href="../sellerPage.php" class="btn btn-primary">
+                    <a href="../sellerPage.php" class="btn btn-pri">
                         Go back
                     </a>
                 ';

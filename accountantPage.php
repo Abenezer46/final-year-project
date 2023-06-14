@@ -1,4 +1,5 @@
 <?php
+include "./app/dbconn.php";
 session_start();
 
 if (!$_SESSION["auth"]) {
@@ -9,6 +10,25 @@ if (!$_SESSION["auth"]) {
     header('Location: index.php');
     exit;
 }
+if (isset($_POST['logout'])) {
+    # code...
+    echo 'logout';
+    $id = $_SESSION['uid'];
+    
+    $mydate = getdate(date("U"));
+          
+    $outtime = "$mydate[hours]:$mydate[minutes] , $mydate[weekday], $mydate[month] $mydate[mday], $mydate[year]";
+
+    $sql = "update `users` SET `outtime`='$outtime' where `uid` = '$id'";
+    $result = mysqli_query($con, $sql);
+    if($result){
+        echo "hello";
+        $_SESSION['auth'] = "";
+        $_SESSION['uid'] = 0;
+        header("Location: ./index.php");
+    }
+
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,7 +38,7 @@ if (!$_SESSION["auth"]) {
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Accountant Page</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='./css/style.css'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
@@ -28,10 +48,10 @@ if (!$_SESSION["auth"]) {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
-<body class="accountantPage p-3 m-0 border-0 bd-example m-0 border-0" >
+<body class="managerPage p-3 m-0 border-0 bd-example m-0 border-0" style="background-color:#DF804C;">
     <nav class="navbar navbar-expand-lg" style="background-color:#fff; color:black; border-radius: 5px;">
         <div class="container-fluid">
-            <a class="navbar-brand" style="color: #023C40;" href="./index.php">FMS</a>
+            <a class="navbar-brand" style="color: #DF804C;" href="./index.php">FMS</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
                 aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +78,7 @@ if (!$_SESSION["auth"]) {
 
                 </ul>
                 <form class="d-flex" role="search" method="post">
-                    <button class="btn" type="submit" name="submit">logout</button>
+                    <button class="btn btn-danger" type="submit" name="logout">logout</button>
                 </form>
             </div>
         </div>

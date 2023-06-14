@@ -71,13 +71,20 @@ if ($_SESSION['auth'] == 'manager') {
     # code...
     echo '<body class="managerPage p-3 m-0 border-0 bd-example m-0 border-0" style="background-color:#5BA877;">';
 } else{
-    echo '<body class="accountantPage p-3 m-0 border-0 bd-example m-0 border-0">';
+    echo '<body class="accountantPage p-3 m-0 border-0 bd-example m-0 border-0" style= "background-color:#DF804C;">';
 }
 ?>
         <nav class="navbar navbar-expand-lg" style="background-color:#fff; color:black; border-radius: 5px;">
             <div class="container-fluid">
 
-                <a class="navbar-brand" style="color: #5BA877;" href="./index.php">FMS</a>
+            <?php
+            if ($_SESSION['auth'] == 'accountant') {
+                # code...
+                echo '<a class="navbar-brand" style="color: #DF804C;" href="./index.php">FMS</a>';
+            } else{
+                echo '<a class="navbar-brand" style="color: #5BA877;" href="./index.php">FMS</a>';
+            }
+            ?>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"

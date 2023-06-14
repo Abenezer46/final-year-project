@@ -19,6 +19,7 @@
     .btn {
         background-color: #f44336;
         color: #fff;
+        border: 2px solid;
         &:hover {
           background-color: #fff;
           border: 2px solid #f44336;
@@ -34,6 +35,7 @@
         .btn {
           background-color: #f44336;
           color: #fff;
+          border: 2px solid;
           &:hover {
             background-color: #fff;
             border: 2px solid #f44336;
@@ -47,6 +49,7 @@
     .btn-pri{
         background-color: #585BB8;
         color: #fff;
+        border: 2px solid;
         &:hover {
           background-color: #fff;
           border: 2px solid #585BB8;
@@ -56,6 +59,7 @@
     .btn-danger {
         background-color: #f44336;
         color: #fff;
+        border: 2px solid;
         &:hover {
           background-color: #fff;
           border: 2px solid #f44336;
@@ -71,6 +75,7 @@
         .btn {
           background-color: #f44336;
           color: #fff;
+          border: 2px solid;
           &:hover {
             background-color: #fff;
             border: 2px solid #f44336;
@@ -78,4 +83,44 @@
           }
         }
       }
+}
+
+.accountantPage{
+  .btn-pri{
+      background-color: #585BB8;
+      color: #fff;
+      border: 2px solid;
+      &:hover {
+        background-color: #fff;
+        border: 2px solid #585BB8;
+        color: #585BB8;
+      }
+  }
+  .btn-danger {
+      background-color: #f44336;
+      color: #fff;
+      border: 2px solid;
+      &:hover {
+        background-color: #fff;
+        border: 2px solid #f44336;
+        color: #f44336;
+      }
+    }
+  
+    p,th,td{
+      color: #fff;
+    }
+    .card {
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2);
+      .btn {
+        background-color: #f44336;
+        color: #fff;
+        border: 2px solid;
+        &:hover {
+          background-color: #fff;
+          border: 2px solid #f44336;
+          color: #f44336;
+        }
+      }
+    }
 }
