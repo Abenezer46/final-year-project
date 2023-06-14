@@ -78,7 +78,17 @@ if ($_SESSION['auth'] == 'accountant') {
 
     <nav class="navbar navbar-expand-lg" style="background-color:#fff; color:black; border-radius: 5px;">
         <div class="container-fluid">
-            <a class="navbar-brand" style="color: #585BB8;" href="./index.php">FMS</a>
+            <?php
+            if ($_SESSION['auth'] == 'accountant') {
+                # code...
+                echo '<a class="navbar-brand" style="color:#DF804C; href="./index.php">FMS</a>
+                ';
+            }else{
+                echo '<a class="navbar-brand" style="color: #585BB8;" href="./index.php">FMS</a>
+                ';
+            }
+            ?>
+            
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
                 aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
