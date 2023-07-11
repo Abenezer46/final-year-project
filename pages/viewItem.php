@@ -149,7 +149,7 @@ if (isset($_POST['logout'])) {
                 <?php
                 $sql = 'select * from `store`';
                 $result = mysqli_query($con, $sql);
-                if ($result) {
+                if ($result && mysqli_affected_rows($con) > 0) {
 
                     while ($row = mysqli_fetch_assoc($result)) {
                         $id = $row['id'];
@@ -168,6 +168,17 @@ if (isset($_POST['logout'])) {
                         </tr>
                         ';
                     }
+                }else{
+                    echo '
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <svg class="bi flex-shrink-0 me-1" role="img" aria-label="Danger:" style="width:25px; height:25px;">
+                        <use xlink:href="#exclamation-triangle-fill" />
+                        </svg>
+                         <div>
+                               NO items found in the database.
+                         </div>
+                    </div>
+                    ';
                 }
                 ?>
             </tbody>

@@ -7,7 +7,7 @@
     $sql = "delete from `users` where uid=$id";
     $result = mysqli_query($con,$sql);
     
-    if($result){
+    if ($result && mysqli_affected_rows($con) > 0) {
         header("Location: ../pages/deleteUsers.php?success=User successfully deleted from the database");
         //echo 'successfully';
     }else{
@@ -21,7 +21,7 @@
 
     $result = mysqli_query($con,$sql);
 
-    if($result){
+    if ($result && mysqli_affected_rows($con) > 0) {
         header("Location: ../pages/deleteItem.php?success=User successfully deleted from the database");
         //echo 'successfully';
     }else{

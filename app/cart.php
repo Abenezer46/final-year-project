@@ -22,7 +22,7 @@ if (isset($_POST['update'])) {
     $sql = "update `cart` SET `quantity`='$quant' where `id` = '$cartid'";
     $result = mysqli_query($con, $sql);
 
-    if ($result) {
+    if ($result && mysqli_affected_rows($con) > 0) {
         header('Location: cart.php?success= quantity updated.');
     } else {
         header('Location: cart.php?error= quantity not updated.');
@@ -46,18 +46,18 @@ if (isset($_GET['sell'])) {
     $sql = "select * from `cart`";
 
     $result = mysqli_query($con, $sql);
-    
+
     // Create a multidimensional array to store the item information
     $items = array();
     $price = 0;
-    if ($result) {
+    if ($result && mysqli_affected_rows($con) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             $item = array(
                 'item_id' => $row['item_id'],
                 'item_price' => $row['item_price'],
                 'item_quantity' => $row['quantity']
             );
-    
+
             $price = $price + $row['item_price'];
             $items[] = $item;
         }
@@ -68,27 +68,30 @@ if (isset($_GET['sell'])) {
             # code...
             header("Location:../pages/products.php?error=cart is empty");
             exit();
-        }
-        else{
+        } else {
             $user = $_SESSION["username"];
             $sql = "insert INTO `sells` (items, date_time, total_price, user) 
-                    VALUES ('". json_encode($items) . "', '" . $date . "', '".$price."', '".$user."')";
+                    VALUES ('" . json_encode($items) . "', '" . $date . "', '" . $price . "', '" . $user . "')";
 
             $result = mysqli_query($con, $sql);
-            if ($result) {
+            if ($result && mysqli_affected_rows($con) > 0) {
                 # code...
                 $items = array();
                 $sql = "delete from `cart`";
                 $result = mysqli_query($con, $sql);
-                if($result){
+                if ($result && mysqli_affected_rows($con) > 0) {
                     header("Location:../pages/products.php?success=sells complete");
-                }else{
-                   header("Location:../app/cart.php?error=sells not complete");
+                } else {
+                    header("Location:../app/cart.php?error=sells not complete");
                 }
-    
+
+            } else {
+                header("Location:../app/cart.php?error=sells not complete");
             }
         }
-    
+
+    } else {
+        header("Location:../app/cart.php?error=sells not complete");
     }
 }
 
@@ -97,10 +100,9 @@ if (isset($_GET['removeCart'])) {
     $items = array();
     $sql = "delete from `cart`";
     $result = mysqli_query($con, $sql);
-    if($result){
+    if ($result && mysqli_affected_rows($con) > 0) {
         header("Location:../pages/products.php?success=cart cleared successfully");
-    }
-    else{
+    } else {
         header("Location:../app/cart.php?error=cart not cleared");
     }
 }
@@ -109,14 +111,14 @@ if (isset($_POST['logout'])) {
     # code...
     echo 'logout';
     $id = $_SESSION['uid'];
-    
+
     $mydate = getdate(date("U"));
-          
+
     $outtime = "$mydate[hours]:$mydate[minutes] , $mydate[weekday], $mydate[month] $mydate[mday], $mydate[year]";
 
     $sql = "update `users` SET `outtime`='$outtime' where `uid` = '$id'";
     $result = mysqli_query($con, $sql);
-    if($result){
+    if ($result) {
         echo "hello";
         $_SESSION['auth'] = "";
         $_SESSION['uid'] = 0;
@@ -238,7 +240,7 @@ if (isset($_POST['logout'])) {
                 $sql = 'select * from `cart`';
                 $result = mysqli_query($con, $sql);
                 $c = 0;
-                if ($result) {
+                if ($result && mysqli_affected_rows($con) > 0) {
                     $c = 1;
                     $price = 0;
                     $quantity = 0;
@@ -292,6 +294,17 @@ if (isset($_POST['logout'])) {
                             <th>Total Quantity</th>
                             <th> ' . $quantity . '</th>
                         </tr>';
+                } else {
+                    echo '
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <svg class="bi flex-shrink-0 me-1" role="img" aria-label="Danger:" style="width:25px; height:25px;">
+                        <use xlink:href="#exclamation-triangle-fill" />
+                         </svg>
+                         <div>
+                               Please add item to Cart
+                         </div>
+                    </div>
+                    ';
                 }
                 ?>
             </tbody>

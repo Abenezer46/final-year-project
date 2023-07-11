@@ -28,7 +28,7 @@ if (isset($_POST['logout'])) {
 <body class="loginPage p-3 m-0 border-0 bd-example m-0 border-0" style="background-color:#5BA877;">
     <nav class="navbar navbar-expand-lg" style="background-color:#fff; color:black; border-radius: 5px;">
         <div class="container-fluid">
-            <a class="navbar-brand" style="color: #5BA877;" href="./index.php">FMS</a>
+            <a class="navbar-brand" style="color: #5BA877;" href="../index.php">FMS</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
                 aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">

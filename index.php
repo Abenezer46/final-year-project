@@ -40,8 +40,6 @@ if (isset($_GET['submit'])) {
 
 <body class="p-3 m-0 border-0 bd-example m-0 border-0" style="background-color:hsl(220 15% 24%) ;">
 
-    <!-- Example Code -->
-
     <nav class="navbar navbar-expand-lg" style="background-color:hsl(220 10% 14%); color: #ffffff; border-radius: 5px;">
         <div class="container-fluid">
             <a class="navbar-brand" style="color: #ffffff;" href="#">Navbar</a>

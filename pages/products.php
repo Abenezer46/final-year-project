@@ -19,7 +19,7 @@ if (isset($_GET['addToCart'])) {
     $itemid = $_GET['addToCart'];
     $sql = "select * from `store` where id = '$itemid' ";
     $result = mysqli_query($con, $sql);
-    if ($result) {
+    if ($result && mysqli_affected_rows($con) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             $i = $row['id'];
             $n = $row['item_name'];
@@ -29,12 +29,14 @@ if (isset($_GET['addToCart'])) {
             $sqlcart = "insert into `cart` (item_id,item_name,item_price,item_type,quantity)
                         value('$itemid','$n','$p','$t','1')";
             $res = mysqli_query($con, $sqlcart);
-            if ($res) {
+            if ($res && mysqli_affected_rows($con) > 0) {
                 header('Location: products.php?success= Item added to cart');
             } else {
                 header('Location: products.php?error= Item not added to cart');
             }
         }
+    }else {
+        header('Location: products.php?error= Item not added to cart');
     }
 }
 
@@ -168,7 +170,7 @@ if (isset($_POST['logout'])) {
                 <?php
                 $sql = 'select * from `store`';
                 $result = mysqli_query($con, $sql);
-                if ($result) {
+                if ($result && mysqli_affected_rows($con) > 0) {
 
                     while ($row = mysqli_fetch_assoc($result)) {
                         $id = $row['id'];
@@ -197,6 +199,17 @@ if (isset($_POST['logout'])) {
                         </tr>
                         ';
                     }
+                }else{
+                    echo '
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <svg class="bi flex-shrink-0 me-1" role="img" aria-label="Danger:" style="width:25px; height:25px;">
+                        <use xlink:href="#exclamation-triangle-fill" />
+                        </svg>
+                         <div>
+                               NO items added to database Please add new items
+                         </div>
+                    </div>
+                    ';
                 }
                 ?>
             </tbody>

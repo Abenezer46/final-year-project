@@ -20,13 +20,15 @@ if (isset($_GET['gen'])) {
 
         $i = 3;
 
-        if ($result) {
+        if ($result && mysqli_affected_rows($con) > 0) {
             $sheet->setCellValue("B" . 1, "Users List Report");
             $sheet->setCellValue("A" . 2, "id");
             $sheet->setCellValue("B" . 2, "user name");
             $sheet->setCellValue("C" . 2, "email");
             $sheet->setCellValue("D" . 2, "password");
             $sheet->setCellValue("E" . 2, "role");
+            $sheet->setCellValue("F" . 2, "intime");
+            $sheet->setCellValue("G" . 2, "outtime");
 
             while ($row = mysqli_fetch_assoc($result)) {
                 $sheet->setCellValue("A" . $i, $row["uid"]);
@@ -34,6 +36,8 @@ if (isset($_GET['gen'])) {
                 $sheet->setCellValue("C" . $i, $row["email"]);
                 $sheet->setCellValue("D" . $i, $row["password"]);
                 $sheet->setCellValue("E" . $i, $row["urole"]);
+                $sheet->setCellValue("F" . $i, $row["intime"]);
+                $sheet->setCellValue("G" . $i, $row["outtime"]);
                 $i++;
             }
             // (E) SAVE FILE
@@ -52,6 +56,8 @@ if (isset($_GET['gen'])) {
 
             header("Location: ../pages/reportPage.php?success=Users Report generated successfully.");
 
+        }else{
+            header("Location: ../pages/reportPage.php?error=Users Report not generated empty table.");
         }
 
 
@@ -72,7 +78,7 @@ if (isset($_GET['gen'])) {
 
             $i = 3;
 
-            if ($result) {
+            if ($result && mysqli_affected_rows($con) > 0) {
 
                 $sheet->setCellValue("B" . 1, "Store List Report");
                 $sheet->setCellValue("A" . 2, "id");
@@ -105,6 +111,8 @@ if (isset($_GET['gen'])) {
 
                 header("Location: ./pages/reportPage.php?success=Store Report generated successfully.");
 
+            }else{
+                header("Location: ../pages/reportPage.php?error=Store Report not generated empty table.");
             }
         }
 
@@ -126,7 +134,7 @@ if (isset($_GET['gen'])) {
 
             $i = 3;
 
-            if ($result) {
+            if ($result && mysqli_affected_rows($con) > 0) {
 
                 $sheet->setCellValue("B" . 1, "Sells List Report");
                 $sheet->setCellValue("A" . 2, "id");
@@ -158,6 +166,8 @@ if (isset($_GET['gen'])) {
                 ob_end_flush();
 
                 header("Location: ./pages/reportPage.php?success=Sells Report generated successfully.");
+            }else{
+                header("Location: ../pages/reportPage.php?error=Sells Report not generated empty table.");
             }
         }
     }

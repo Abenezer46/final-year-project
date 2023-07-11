@@ -69,7 +69,7 @@ session_start();
 
                 $sql = "select * from `users` where uid='$id' ";
                 $result = mysqli_query($con, $sql);
-                if ($result) {
+                if ($result && mysqli_affected_rows($con) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         $id = $row['uid'];
                         $_SESSION['userId'] = $id;
@@ -160,7 +160,7 @@ session_start();
 
                 $sql = "select * from `store` where id='$id' ";
                 $result = mysqli_query($con, $sql);
-                if ($result) {
+                if ($result && mysqli_affected_rows($con) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         $id = $row['id'];
                         $_SESSION['itemId'] = $id;
