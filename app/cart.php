@@ -70,8 +70,9 @@ if (isset($_GET['sell'])) {
             exit();
         } else {
             $user = $_SESSION["username"];
+            $amount = $_SESSION["amount"];
             $sql = "insert INTO `sells` (items, date_time, total_price, user) 
-                    VALUES ('" . json_encode($items) . "', '" . $date . "', '" . $price . "', '" . $user . "')";
+                    VALUES ('" . json_encode($items) . "', '" . $date . "','" .$amount. "', '" . $price . "', '" . $user . "')";
 
             $result = mysqli_query($con, $sql);
             if ($result && mysqli_affected_rows($con) > 0) {
@@ -253,6 +254,7 @@ if (isset($_POST['logout'])) {
                         $quant = $row['quantity'];
 
                         $quantity = $quantity + $quant;
+                        $_SESSION['amount'] = $quantity;
                         $price = $price + $p;
 
                         $price = $quantity * $price;

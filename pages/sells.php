@@ -131,6 +131,7 @@ if ($_SESSION['auth'] == 'accountant') {
                     <th scope="col">Sells id</th>
                     <th scope="col">Items</th>
                     <th scope="col">Date and Time of cells</th>
+                    <th scope="col">Quantity</th>
                     <th scope="col">Total price</th>
                     <th scope="col">users</th>
                 </tr>
@@ -145,6 +146,7 @@ if ($_SESSION['auth'] == 'accountant') {
                         $id = $row['id'];
                         $items = $row['items'];
                         $date = $row['date_time'];
+                        $amount = $row['amount'];
                         $price = $row['total_price'];
                         $user = $row['user'];
 
@@ -168,6 +170,7 @@ if ($_SESSION['auth'] == 'accountant') {
 
                         echo '
                           <td>' . $date . '</td>
+                          <td>' . $amount . '</td>
                           <td>' . $price . '</td>
                           <td>' . $user . '</td>
                         </tr>

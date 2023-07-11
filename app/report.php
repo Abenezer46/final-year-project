@@ -141,7 +141,7 @@ if (isset($_GET['gen'])) {
                 $sheet->setCellValue("B" . 2, "Items");
                 $sheet->setCellValue("C" . 2, "Date and time");
                 $sheet->setCellValue("D" . 2, "Total Price");
-                $sheet->setCellValue("D" . 2, "sells person");
+                $sheet->setCellValue("E" . 2, "sells person");
 
                 while ($row = mysqli_fetch_assoc($result)) {
                     $sheet->setCellValue("A" . $i, $row["id"]);

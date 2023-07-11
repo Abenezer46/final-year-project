@@ -69,10 +69,15 @@ if (isset($_GET['submit'])) {
     <!-- End Example Code -->
 
     <div id="home" class="home" style="display:flex; align-items:center; justify-content: center;">
-        <div style="color:#ffffff; margin: 10% 25%; text-align: center; display:flex; align-items:center; justify-content: center; flex-direction: column;">
+        <div
+            style="color:#ffffff; margin: 10% 25%; text-align: center; display:flex; align-items:center; justify-content: center; flex-direction: column;">
             <h1 style="color:#ffffff;">Welcome To Financial Managment System For Micro and Small Enterprises.</h1>
-            <p style="color:#abacae;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga nesciunt dolorum
-                nulla magnam veniam sapiente, fugiat! fuga nesciunt dolorum nulla magnam veniam sapiente, fugiat! </p>
+            <p style="color:#abacae;">We understand that managing finances can be overwhelming for small
+                business owners, especially when they're focused on growing their
+                business. That's why we take care of financial management, so you
+                can focus on what you do best - running your business. Our goal is
+                to make financial management easy and stress-free for our clients,
+                so they can focus on achieving their business goals.</p>
         </div>
     </div>
 
