@@ -82,17 +82,17 @@ session_start();
                         echo '
                               <div class="mb-3">
                                   <label class="form-label">User Name</label>
-                                  <input type="text" class="form-control" id="userNameInput" name="userNameInput" autocomplete="off" value=' . $userName . '>
+                                  <input type="text" class="form-control" id="userNameInput" name="userNameInput" autocomplete="off" value=' . $userName . ' pattern="[A-Za-z]" required>
                               </div>
                   
                               <div class="mb-3">
                                   <label class="form-label">Email</label>
-                                  <input type="email" class="form-control" name="emailInput" autocomplete="off" value=' . $email . '>
+                                  <input type="email" class="form-control" name="emailInput" autocomplete="off" value=' . $email . ' pattern="[A-Za-z]" required>
                               </div>
                   
                               <div class="mb-3">
                                   <label class="form-label">Address</label>
-                                  <input type="text" class="form-control" name="addressInput" autocomplete="off" value=' . $address . '>
+                                  <input type="text" class="form-control" name="addressInput" autocomplete="off" value=' . $address . ' pattern="[A-Za-z]" required>
                               </div>
                               ';
                         if ($role == '1') {
@@ -143,7 +143,7 @@ session_start();
                         echo '
                               <div class="mb-3">
                                   <label class="form-label">Password</label>
-                                  <input type="password" class="form-control" name="passwordInput" autocomplete="off" value=' . $password . '>
+                                  <input type="password" class="form-control" name="passwordInput" autocomplete="off" value=' . $password . ' pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$" required>
                               </div>
                   
                               <button type="submit" name="update" class="btn btn-primary">Save</button>
@@ -154,6 +154,8 @@ session_start();
                       </div>
                 ';
                     }
+                }else{
+                    header("Location: ../pages/createUsers.php?error=Can not find this user in the data base.");
                 }
             } else if (isset($_GET['itemId'])) {
                 $id = $_GET['itemId'];
@@ -172,22 +174,22 @@ session_start();
                         echo '
                               <div class="mb-3">
                                   <label class="form-label">Item name</label>
-                                  <input type="text" class="form-control" id="itemNameInput" name="itemNameInput" autocomplete="off" value=' . $name . '>
+                                  <input type="text" class="form-control" id="itemNameInput" name="itemNameInput" autocomplete="off" value=' . $name . ' pattern="[A-Za-z]" required>
                               </div>
                   
                               <div class="mb-3">
                                   <label class="form-label">Item type</label>
-                                  <input type="text" class="form-control" name="typeInput" autocomplete="off" value=' . $type . '>
+                                  <input type="text" class="form-control" name="typeInput" autocomplete="off" value=' . $type . ' pattern="[A-Za-z]" required>
                               </div>
                   
                               <div class="mb-3">
                                   <label class="form-label">Quantity</label>
-                                  <input type="number" class="form-control" name="quantityInput" autocomplete="off" value=' . $quantity . '>
+                                  <input type="number" class="form-control" name="quantityInput" autocomplete="off" value=' . $quantity . ' required>
                               </div>
                   
                               <div class="mb-3">
                                   <label class="form-label">price</label>
-                                  <input type="number" class="form-control" name="priceInput" autocomplete="off" value=' . $price . '>
+                                  <input type="number" class="form-control" name="priceInput" autocomplete="off" value=' . $price . ' required>
                               </div>
                   
                               <button type="submit" name="updateItem" class="btn btn-primary">Save</button>
@@ -198,6 +200,8 @@ session_start();
                       </div>
                 ';
                     }
+                }else{
+                    header("Location: ../pages/createItem.php?error=Can not find this item in the data base.");
                 }
             }
 

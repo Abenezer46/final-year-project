@@ -126,22 +126,22 @@ if (isset($_POST['logout'])) {
 
             <div class="mb-3">
                 <label class="form-label">Item Name</label>
-                <input type="text" class="form-control" name="nameInput" autocomplete="off">
+                <input type="text" class="form-control" name="nameInput" autocomplete="off" pattern="[A-Za-z]" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Item Type</label>
-                <input type="text" class="form-control" name="typeInput" autocomplete="off">
+                <input type="text" class="form-control" name="typeInput" autocomplete="off" pattern="[A-Za-z]" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Quantity</label>
-                <input type="number" class="form-control" name="quantityInput" autocomplete="off">
+                <input type="number" class="form-control" name="quantityInput" autocomplete="off" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Price</label>
-                <input type="number" class="form-control" name="priceInput" autocomplete="off">
+                <input type="number" class="form-control" name="priceInput" autocomplete="off" required>
             </div>
 
             <button type="submit" name="submit" class="btn btn-pri">Save</button>

@@ -1,7 +1,8 @@
 <?php
 include '../app/dbconn.php';
-
 session_start();
+
+
 if (!isset($_SESSION['auth'])) {
     header('Location: login.php');
     exit;
@@ -50,6 +51,7 @@ if (isset($_GET['sell'])) {
     // Create a multidimensional array to store the item information
     $items = array();
     $price = 0;
+    $qu = 0;
     if ($result && mysqli_affected_rows($con) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             $item = array(
@@ -59,6 +61,8 @@ if (isset($_GET['sell'])) {
             );
 
             $price = $price + $row['item_price'];
+            $q = $q + $row['quantity'];
+            $price = $q * $price;
             $items[] = $item;
         }
 
@@ -69,10 +73,10 @@ if (isset($_GET['sell'])) {
             header("Location:../pages/products.php?error=cart is empty");
             exit();
         } else {
-            $user = $_SESSION["username"];
-            $amount = $_SESSION["amount"];
-            $sql = "insert INTO `sells` (items, date_time, total_price, user) 
-                    VALUES ('" . json_encode($items) . "', '" . $date . "','" .$amount. "', '" . $price . "', '" . $user . "')";
+            $user = $_SESSION["user"];
+
+            $sql = "insert INTO `sells` (items, date_time, amount, total_price, user) 
+                    VALUES ('" . json_encode($items) . "', '" . $date . "','" .$q. "', '" . $price . "', '" . $user . "')";
 
             $result = mysqli_query($con, $sql);
             if ($result && mysqli_affected_rows($con) > 0) {
@@ -254,7 +258,6 @@ if (isset($_POST['logout'])) {
                         $quant = $row['quantity'];
 
                         $quantity = $quantity + $quant;
-                        $_SESSION['amount'] = $quantity;
                         $price = $price + $p;
 
                         $price = $quantity * $price;
@@ -276,7 +279,7 @@ if (isset($_POST['logout'])) {
                           <td>
                             <div>
 
-                              <a href="cart.php?removeFromCart=' . $id . '" 
+                              <a href="cart.php?removeFromCart=' . $id . '&quantity='.$quantity.'"
                                  class="btn btn-outline-danger">
                                  remove from cart
                               </a>
@@ -284,7 +287,6 @@ if (isset($_POST['logout'])) {
                            </td>
                         </tr>
                         ';
-
                     }
                     echo '
                         <tr style="border-top: 1px solid;">

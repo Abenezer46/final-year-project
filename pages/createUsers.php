@@ -130,17 +130,17 @@ if (isset($_POST['logout'])) {
 
             <div class="mb-3">
                 <label class="form-label">User Name</label>
-                <input type="text" class="form-control" id="userNameInput" name="userNameInput" autocomplete="off">
+                <input type="text" class="form-control" id="userNameInput" name="userNameInput" autocomplete="off" pattern="[A-Za-z]" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input type="email" class="form-control" name="emailInput" autocomplete="off">
+                <input type="email" class="form-control" name="emailInput" autocomplete="off" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}">
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Address</label>
-                <input type="text" class="form-control" name="addressInput" autocomplete="off">
+                <input type="text" class="form-control" name="addressInput" autocomplete="off" pattern="[A-Za-z]" required>
             </div>
 
             <div class="mb-3">
@@ -156,7 +156,7 @@ if (isset($_POST['logout'])) {
 
             <div class="mb-3">
                 <label class="form-label">Password</label>
-                <input type="password" class="form-control" name="passwordInput" autocomplete="off">
+                <input type="password" class="form-control" name="passwordInput" autocomplete="off" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$" required>
             </div>
 
             <button type="submit" name='submit' class="btn btn-pri">Save</button>

@@ -17,8 +17,6 @@ if (isset($_POST['userNameInput']) && isset($_POST['inputPassword'])) {
       while ($row = mysqli_fetch_assoc($result)) {
         $id = $row['uid'];
         $userName = $row['username'];
-        $email = $row['email'];
-        $address = $row['address'];
         $password = $row['password'];
         $role = $row['urole'];
 
@@ -31,7 +29,9 @@ if (isset($_POST['userNameInput']) && isset($_POST['inputPassword'])) {
           $intime = "$mydate[hours]:$mydate[minutes] , $mydate[weekday], $mydate[month] $mydate[mday], $mydate[year]";
 
           $sql = "update `users` SET `intime`='$intime' where `uid` = '$id'";
+
           $result = mysqli_query($con, $sql);
+          
           if ($result && mysqli_affected_rows($con) > 0) {
             if ($role == '1') {
               $_SESSION["auth"] = "manager";
