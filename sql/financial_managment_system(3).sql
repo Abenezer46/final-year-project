@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2023 at 07:52 PM
+-- Generation Time: Jul 12, 2023 at 01:50 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -36,13 +36,6 @@ CREATE TABLE `cart` (
   `quantity` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`id`, `item_id`, `item_name`, `item_price`, `item_type`, `quantity`) VALUES
-(15, 3, 'steel shites', '3000', 'row material', '3');
-
 -- --------------------------------------------------------
 
 --
@@ -53,18 +46,10 @@ CREATE TABLE `sells` (
   `id` int(50) NOT NULL,
   `items` varchar(400) NOT NULL,
   `date_time` varchar(50) NOT NULL,
+  `amount` int(255) NOT NULL,
   `total_price` varchar(50) NOT NULL,
   `user` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `sells`
---
-
-INSERT INTO `sells` (`id`, `items`, `date_time`, `total_price`, `user`) VALUES
-(4, '[{\"item_id\":\"3\",\"item_price\":\"3000\",\"item_quantity\":\"1\"},{\"item_id\":\"3\",\"item_price\":\"3000\",\"item_quantity\":\"4\"},{\"item_id\":\"3\",\"item_price\":\"3000\",\"item_quantity\":\"1\"},{\"item_id\":\"3\",\"item_price\":\"3000\",\"item_quantity\":\"6\"}]', '06/10/2023 03:12:13 pm', '12000', ''),
-(6, '[{\"item_id\":\"3\",\"item_price\":\"3000\",\"item_quantity\":\"2\"}]', '06/11/2023 11:49:22 am', '3000', ''),
-(7, '[{\"item_id\":\"3\",\"item_price\":\"3000\",\"item_quantity\":\"2\"}]', '06/11/2023 11:51:12 am', '3000', '');
 
 -- --------------------------------------------------------
 
@@ -85,7 +70,16 @@ CREATE TABLE `store` (
 --
 
 INSERT INTO `store` (`id`, `item_name`, `item_type`, `quantity`, `price`) VALUES
-(3, 'steel shites', 'row material', 25, 3000);
+(4, 'Samsung Galaxy S21', 'smart phone', 10, 32000),
+(5, 'iPhone 12', 'smart phone', 5, 36000),
+(6, 'OnePlus 9 Pro', 'smart phone', 4, 25000),
+(7, 'Google Pixel 5', 'smart', 7, 26000),
+(8, 'Xiaomi Mi 11', 'smart phone', 3, 20000),
+(9, 'Oppo Find X3 Pro', 'smart phone', 8, 24000),
+(10, 'Huawei P40 Pro', 'smart phone', 5, 28000),
+(11, 'Sony Xperia 1 III', 'smart phone', 4, 30000),
+(12, 'LG V60 ThinQ', 'smart phone', 6, 18000),
+(13, 'Motorola Edge+', 'smart phone', 20, 22000);
 
 -- --------------------------------------------------------
 
@@ -109,12 +103,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`uid`, `username`, `email`, `address`, `password`, `urole`, `intime`, `outtime`) VALUES
-(12, 'abenezer demissie', 'abenezerdemissie123@gmail.com', 'addiss ababa', 'hellohi', '4', '11:38 , Sunday, June 11, 2023', ''),
-(13, 'yona', 'yonajems@gail.com', 'joba', 'yona', '1', '', ''),
-(14, 'yonsef', 'yonsef@gmail.com', 'addiss ababa', 'yosef', '2', '', ''),
-(15, 'manuhe', 'manuhe@gmail.com', 'addiss ababa', 'manuhe', '1', '16:21 , Wednesday, June 7, 2023', ''),
-(16, 'eden', 'eden@gmail.com', 'addis ababa', 'eden', '3', '10:10 , Sunday, June 11, 2023', ''),
-(17, 'radia', 'radia@gmail.com', 'addis ababa', 'radia', '2', '11:49 , Sunday, June 11, 2023', '');
+(12, 'abenezer demissie', 'abenezerdemissie123@gmail.com', 'addiss ababa', 'hellohi', '4', '4:47 , Tuesday, July 11, 2023', '8:51 , Thursday, June 22, 2023'),
+(13, 'yona', 'yonajems@gail.com', 'joba', 'yona', '1', '23:41 , Tuesday, July 11, 2023', '23:37 , Tuesday, July 11, 2023'),
+(14, 'yosef', 'yonsef@gmail.com', 'addiss ababa', 'yosef', '2', '4:48 , Tuesday, July 11, 2023', '5:31 , Tuesday, July 11, 2023'),
+(15, 'manuhe', 'manuhe@gmail.com', 'addiss ababa', 'manuhe', '1', '19:6 , Wednesday, June 14, 2023', '19:7 , Wednesday, June 14, 2023'),
+(16, 'eden', 'eden@gmail.com', 'addis ababa', 'eden', '3', '12:57 , Wednesday, July 12, 2023', '19:48 , Wednesday, June 14, 2023'),
+(17, 'radya', 'radia@gmail.com', 'addis ababa', 'radya', '2', '23:38 , Tuesday, July 11, 2023', '23:41 , Tuesday, July 11, 2023');
 
 --
 -- Indexes for dumped tables
@@ -152,19 +146,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `sells`
 --
 ALTER TABLE `sells`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `store`
 --
 ALTER TABLE `store`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `users`

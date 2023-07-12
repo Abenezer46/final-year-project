@@ -82,7 +82,7 @@ if (isset($_GET['submit'])) {
     </div>
 
     <div id="about" class="about">
-
+        
     </div>
 </body>
 
