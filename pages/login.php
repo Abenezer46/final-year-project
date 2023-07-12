@@ -56,12 +56,12 @@ if (isset($_POST['logout'])) {
 
          <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">User Name</label>
-            <input type="text" class="form-control" id="userNameInput" name="userNameInput" autocomplete="off">
+            <input type="text" class="form-control" id="userNameInput" name="userNameInput" autocomplete="off" pattern="[A-Za-z]" required>
          </div>
 
          <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="inputPassword" name="inputPassword" autocomplete="off" />
+            <input type="password" class="form-control" id="inputPassword" name="inputPassword" autocomplete="off" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$" required />
          </div>
 
          <button type="submit" class="btn btn-primary">login</button>
