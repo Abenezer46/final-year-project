@@ -16,15 +16,31 @@ if ($_SESSION['auth'] !== 'seller') {
 
 if (isset($_POST['update'])) {
     # code...
-    $user = $_SESSION["username"];
-    echo $user;
     $cartid = $_POST['id'];
     $quant = $_POST['quantity'];
-    $sql = "update `cart` SET `quantity`='$quant' where `id` = '$cartid'";
-    $result = mysqli_query($con, $sql);
+    $itemId = $_POST['i'];
 
-    if ($result && mysqli_affected_rows($con) > 0) {
-        header('Location: cart.php?success= quantity updated.');
+    $sql = "select * from `store` where id = '$itemId' ";
+
+    $checkStore = $result = mysqli_query($con, $sql);
+
+    if ($checkStore && mysqli_affected_rows($con) > 0) {
+        $row = mysqli_fetch_assoc($checkStore);
+        $itemQuant = $row['quantity'];
+
+        echo $itemQuant;
+        if ($itemQuant - $quant <= 0) {
+            header('Location: cart.php?error= the current stock is less than the one you requested.');
+        } else {
+            $sql = "update `cart` SET `quantity`='$quant' where `id` = '$cartid'";
+            $result = mysqli_query($con, $sql);
+
+            if ($result && mysqli_affected_rows($con) > 0) {
+                header('Location: cart.php?success= quantity updated.');
+            } else {
+                header('Location: cart.php?error= quantity not updated.');
+            }
+        }
     } else {
         header('Location: cart.php?error= quantity not updated.');
     }
@@ -51,9 +67,14 @@ if (isset($_GET['sell'])) {
     // Create a multidimensional array to store the item information
     $items = array();
     $price = 0;
-    $qu = 0;
+    $q = 0;
     if ($result && mysqli_affected_rows($con) > 0) {
+
         while ($row = mysqli_fetch_assoc($result)) {
+
+            $itemId = $row['item_id'];
+            $updateQuant = $row['quantity'];
+
             $item = array(
                 'item_id' => $row['item_id'],
                 'item_price' => $row['item_price'],
@@ -63,7 +84,28 @@ if (isset($_GET['sell'])) {
             $price = $price + $row['item_price'];
             $q = $q + $row['quantity'];
             $price = $q * $price;
-            $items[] = $item;
+            
+            $store = "select quantity from `store` where id = '$itemId'";
+
+            $getStore = mysqli_query($con, $store);
+
+            if ($getStore && mysqli_affected_rows($con) > 0) {
+                $row = mysqli_fetch_assoc($getStore);
+
+                $storeQuant = $row['quantity'];
+
+                $newQuant = $storeQuant - $updateQuant;
+
+                $updateStoreQuant = " update `store` set quantity = '$newQuant' where id = '$itemId'";
+
+                $updateStore = mysqli_query($con, $updateStoreQuant);
+                if ($getStore && mysqli_affected_rows($con) > 0) {
+
+                    $items[] = $item;
+                }
+
+            }
+
         }
 
         $date = date('m/d/Y h:i:s a');
@@ -76,7 +118,7 @@ if (isset($_GET['sell'])) {
             $user = $_SESSION["user"];
 
             $sql = "insert INTO `sells` (items, date_time, amount, total_price, user) 
-                    VALUES ('" . json_encode($items) . "', '" . $date . "','" .$q. "', '" . $price . "', '" . $user . "')";
+                    VALUES ('" . json_encode($items) . "', '" . $date . "','" . $q . "', '" . $price . "', '" . $user . "')";
 
             $result = mysqli_query($con, $sql);
             if ($result && mysqli_affected_rows($con) > 0) {
@@ -206,6 +248,7 @@ if (isset($_POST['logout'])) {
         <header class="text-center p-5">
             <p class="display-4">Cart</p>
         </header>
+
         <?php if (isset($_GET['error'])) { ?>
             <div class="alert alert-danger d-flex align-items-center" role="alert">
                 <svg class="bi flex-shrink-0 me-1" role="img" aria-label="Danger:" style="width:25px; height:25px;">
@@ -228,7 +271,12 @@ if (isset($_POST['logout'])) {
             </div>
         <?php } ?>
 
-        <table class="table my-4">
+        <div class="search" id="search">
+            <p>Type in the input field to search the list for specific items:</p>
+            <input class="form-control" id="myInput" type="text" placeholder="Search.." style="width:30%;">
+        </div>
+
+        <table class="table my-4" id="myTable">
             <thead>
                 <tr style="border-top: 1px solid;">
                     <th scope="col">cart id</th>
@@ -272,14 +320,15 @@ if (isset($_POST['logout'])) {
                           <td>
                             <form method="POST">
                                 <input name="id" value=' . $id . ' style="display:none;"/>
-                                <input type="number" name="quantity" value= ' . $quant . ' class="narrow-input" style="width:50px;"/>
+                                <input name="i" value=' . $i . ' style="display:none;"/>
+                                <input type="number" name="quantity" min="1" value= ' . $quant . ' class="narrow-input" style="width:50px;"/>
                                 <input type="submit" name="update" value="update">
                             </form>
                           </td>
                           <td>
                             <div>
 
-                              <a href="cart.php?removeFromCart=' . $id . '&quantity='.$quantity.'"
+                              <a href="cart.php?removeFromCart=' . $id . '&quantity=' . $quantity . '"
                                  class="btn btn-outline-danger">
                                  remove from cart
                               </a>
@@ -326,6 +375,28 @@ if (isset($_POST['logout'])) {
             </a>
         </div>
     </div>
+
+    <script>
+        // JavaScript code to filter the table based on user input
+        const searchInput = document.getElementById("myInput");
+        const tableRows = document.getElementById("myTable").getElementsByTagName("tr");
+
+        searchInput.addEventListener("input", function () {
+            const filter = searchInput.value.toLowerCase();
+            for (let i = 1; i < tableRows.length; i++) {
+                const cells = tableRows[i].getElementsByTagName("td");
+                let match = false;
+                for (let j = 0; j < cells.length; j++) {
+                    const cellText = cells[j].textContent.toLowerCase();
+                    if (cellText.includes(filter)) {
+                        match = true;
+                        break;
+                    }
+                }
+                tableRows[i].style.display = match ? "" : "none";
+            }
+        });
+    </script>
 </body>
 
 </html>

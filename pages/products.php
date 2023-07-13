@@ -21,21 +21,35 @@ if (isset($_GET['addToCart'])) {
     $result = mysqli_query($con, $sql);
     if ($result && mysqli_affected_rows($con) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
+
+            $qua = $row['quantity'];
             $i = $row['id'];
             $n = $row['item_name'];
             $t = $row['item_type'];
             $p = $row['price'];
 
-            $sqlcart = "insert into `cart` (item_id,item_name,item_price,item_type,quantity)
-                        value('$itemid','$n','$p','$t','1')";
-            $res = mysqli_query($con, $sqlcart);
-            if ($res && mysqli_affected_rows($con) > 0) {
-                header('Location: products.php?success= Item added to cart');
+            if ($qua <= 0) {
+                header('Location: products.php?error= Item is out of stock');
             } else {
-                header('Location: products.php?error= Item not added to cart');
+                $sql = "select * from `cart` where item_id = '$itemid'";
+
+                $checkcart = mysqli_query($con, $sql);
+
+                if ($checkcart && mysqli_affected_rows($con) > 0) {
+                    header('Location: products.php?error= Item already exists in cart');
+                } else {
+                    $sqlcart = "insert into `cart` (item_id,item_name,item_price,item_type,quantity)
+                value('$itemid','$n','$p','$t','1')";
+                    $res = mysqli_query($con, $sqlcart);
+                    if ($res && mysqli_affected_rows($con) > 0) {
+                        header('Location: products.php?success= Item added to cart');
+                    } else {
+                        header('Location: products.php?error= Item not added to cart');
+                    }
+                }
             }
         }
-    }else {
+    } else {
         header('Location: products.php?error= Item not added to cart');
     }
 }
@@ -44,14 +58,14 @@ if (isset($_POST['logout'])) {
     # code...
     echo 'logout';
     $id = $_SESSION['uid'];
-    
+
     $mydate = getdate(date("U"));
-          
+
     $outtime = "$mydate[hours]:$mydate[minutes] , $mydate[weekday], $mydate[month] $mydate[mday], $mydate[year]";
 
     $sql = "update `users` SET `outtime`='$outtime' where `uid` = '$id'";
     $result = mysqli_query($con, $sql);
-    if($result){
+    if ($result) {
         echo "hello";
         $_SESSION['auth'] = "";
         $_SESSION['uid'] = 0;
@@ -75,8 +89,8 @@ if (isset($_POST['logout'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src='./js/main.js'></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src='./js/main.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -134,6 +148,11 @@ if (isset($_POST['logout'])) {
         <header class="text-center p-5">
             <p class="display-4">products</p>
         </header>
+        <div class="search" id="search">
+            <p>Type in the input field to search the list for specific items:</p>
+            <input class="form-control" id="myInput" type="text" placeholder="Search.." style="width:30%;">
+        </div>
+
         <?php if (isset($_GET['error'])) { ?>
             <div class="alert alert-danger d-flex align-items-center" role="alert">
                 <svg class="bi flex-shrink-0 me-1" role="img" aria-label="Danger:" style="width:25px; height:25px;">
@@ -156,7 +175,7 @@ if (isset($_POST['logout'])) {
             </div>
         <?php } ?>
 
-        <table class="table my-4">
+        <table class="table my-4" id="myTable">
             <thead>
                 <tr style="border-top: 1px solid;">
                     <th scope="col">Item id</th>
@@ -177,29 +196,32 @@ if (isset($_POST['logout'])) {
                         $name = $row['item_name'];
                         $type = $row['item_type'];
                         $price = $row['price'];
+                        $q = $row['quantity'];
+                        if ($q > 0) {
+                            echo '
+                               <tr>
+                                 <th scope="row">' . $id . '</th>
+                                 <td>' . $name . '</td>
+                                 <td>' . $type . '</td>
+                                 <td>' . $price . '</td>
+                                 <td>
+                           
+                                   <div>
+                           
+                                     <a href="products.php?addToCart=' . $id . '" 
+                                        class="btn btn-danger">
+                                        Add to cart
+                                     </a>
+                           
+                                  </div>
+                           
+                                 </td>
+                               </tr>
+                            ';
+                        }
 
-                        echo '
-                        <tr>
-                          <th scope="row">' . $id . '</th>
-                          <td>' . $name . '</td>
-                          <td>' . $type . '</td>
-                          <td>' . $price . '</td>
-                          <td>
-
-                            <div>
-
-                              <a href="products.php?addToCart=' . $id . '" 
-                                 class="btn btn-danger">
-                                 Add to cart
-                              </a>
-
-                           </div>
-
-                          </td>
-                        </tr>
-                        ';
                     }
-                }else{
+                } else {
                     echo '
                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                         <svg class="bi flex-shrink-0 me-1" role="img" aria-label="Danger:" style="width:25px; height:25px;">
@@ -225,6 +247,27 @@ if (isset($_POST['logout'])) {
             </a>
         </div>
     </div>
+    <script>
+        // JavaScript code to filter the table based on user input
+        const searchInput = document.getElementById("myInput");
+        const tableRows = document.getElementById("myTable").getElementsByTagName("tr");
+
+        searchInput.addEventListener("input", function () {
+            const filter = searchInput.value.toLowerCase();
+            for (let i = 1; i < tableRows.length; i++) {
+                const cells = tableRows[i].getElementsByTagName("td");
+                let match = false;
+                for (let j = 0; j < cells.length; j++) {
+                    const cellText = cells[j].textContent.toLowerCase();
+                    if (cellText.includes(filter)) {
+                        match = true;
+                        break;
+                    }
+                }
+                tableRows[i].style.display = match ? "" : "none";
+            }
+        });
+    </script>
 </body>
 
 </html>

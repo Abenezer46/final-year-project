@@ -1,90 +1,96 @@
-<?php
-include "../app/dbconn.php";
-session_start();
+<!-- HTML code to create a form with an input field and a table -->
+<form>
+  <label for="myInput">Search:</label>
+  <input type="text" id="myInput" name="myInput">
+  <button type="submit">Submit</button>
+</form>
 
-if (!$_SESSION['cart']) {
-    header('Location: test.php');
-    exit;
-}
-?>
-
-<h1>cart</h1>
-
-<table class="table my-4">
-    <thead>
-        <tr style="border-top: 1px solid;">
-            <th scope="col">Item id</th>
-            <th scope="col">Item name</th>
-            <th scope="col">Item Type</th>
-            <th scope="col">Item price</th>
-            <th scope="col">quantity</th>
-            <th scope="col">operations</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        $cart = $_SESSION['cart'];
-        foreach ($cart as $key => $value) {
-            echo "<tr>";
-                echo "<td>$value</td>";
-            echo "</tr>";
-        }
-        ?>
-    </tbody>
+<table id="myTable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>John</td>
+      <td>13/07/2023 12:54:43 pm</td>
+    </tr>
+    <tr>
+      <td>Jane</td>
+      <td>10/07/2023 09:23:15 am</td>
+    </tr>
+    <tr>
+      <td>Bob</td>
+      <td>22/06/2023 03:45:28 pm</td>
+    </tr>
+  </tbody>
 </table>
-<div>
 
-    <a href="cart.php?sell" class="btn btn-success">
-        done
-    </a>
-    <a href="../pages/products.php" class="btn btn-danger">
-        back
-    </a>
-    <a href="cart.php?removeCart" class="btn btn-danger">
-        clear cart
-    </a>
-</div>
+<script>
+  // JavaScript code to filter the table based on user input
+  const searchInput = document.getElementById("myInput");
+  const tableRows = document.getElementById("myTable").getElementsByTagName("tr");
 
-<?php
-$array = array(
-    array("Name", "Age"),
-    array("John Doe", 30),
-    array("Jane Doe", 25)
-);
-
-// Create a table
-echo "<table>";
-
-// Loop through the multidimensional array and add each element to a table row
-foreach ($array as $row) {
-    echo "<tr>";
-    foreach ($row as $column) {
-        echo "<td>$column</td>";
+  searchInput.addEventListener("input", function() {
+    const filter = searchInput.value.toLowerCase();
+    for (let i = 1; i < tableRows.length; i++) {
+      const cells = tableRows[i].getElementsByTagName("td");
+      let match = false;
+      for (let j = 0; j < cells.length; j++) {
+        const cellText = cells[j].textContent.toLowerCase();
+        if (cellText.includes(filter)) {
+          match = true;
+          break;
+        }
+      }
+      tableRows[i].style.display = match ? "" : "none";
     }
-    echo "</tr>";
-}
+  });
 
-// Close the table tag
-echo "</table>";
+  // JavaScript code to filter the table based on date range
+  const now = new Date();
+  const currentWeekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 1); // Start of current week
+  const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1); // Start of current month
+  const rows = document.querySelectorAll("#myTable tbody tr");
 
-
-$cart = array(
-    array("id" => 10, "name" => 'hi', "type" => 'hello', "price" => '3000'),
-    array("id" => 20, "name" => 'bye', "type" => 'goodbye', "price" => '2000'),
-    array("id" => 30, "name" => 'welcome', "type" => 'greeting', "price" => '1000')
-);
-
-echo "<table>";
-
-foreach ($cart as $row) {
-    echo "<tr>";
-    foreach ($row as $key => $value) {
-        echo "<td>$value</td>";
+  function filterRows(filter) {
+    for (let i = 0; i < rows.length; i++) {
+      const dateStr = rows[i].querySelector("td:nth-of-type(2)").textContent;
+      const dateParts = dateStr.split(" ");
+      const datePart = dateParts[0].split("/");
+      const timePart = dateParts[1];
+      const amPmPart = dateParts[2];
+      const formattedDate = `${datePart[1]}/${datePart[0]}/${datePart[2]} ${timePart} ${amPmPart}`;
+      const date = new Date(formattedDate);
+      if (filter === "week" && date >= currentWeekStart && date <= now) {
+        rows[i].style.display = "";
+      } else if (filter === "month" && date >= currentMonthStart && date <= now) {
+        rows[i].style.display = "";
+      } else {
+        rows[i].style.display = "none";
+      }
     }
-    echo "</tr>";
-}
+  }
 
-echo "</table>";
-
-
-?>
+  searchInput.addEventListener("input", function() {
+    const filter = searchInput.value.toLowerCase();
+    if (filter === "week" || filter === "month") {
+      filterRows(filter);
+    } else {
+      for (let i = 1; i < tableRows.length; i++) {
+        const cells = tableRows[i].getElementsByTagName("td");
+        let match = false;
+        for (let j = 0; j < cells.length; j++) {
+          const cellText = cells[j].textContent.toLowerCase();
+          if (cellText.includes(filter)) {
+            match = true;
+            break;
+          }
+        }
+        tableRows[i].style.display = match ? "" : "none";
+      }
+    }
+  });
+</script>

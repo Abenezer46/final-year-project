@@ -86,14 +86,14 @@ if (isset($_POST['logout'])) {
                     ';
     }
     ?>
-     <nav class="navbar navbar-expand-lg" style="background-color:#fff; color:black; border-radius: 5px;">
+    <nav class="navbar navbar-expand-lg" style="background-color:#fff; color:black; border-radius: 5px;">
         <div class="container-fluid">
             <?php
             if ($_SESSION['auth'] == 'seller') {
                 echo '<a class="navbar-brand" style="color: #585BB8;" href="./index.php">FMS</a>';
-            }elseif($_SESSION['auth'] == 'accountant'){
+            } elseif ($_SESSION['auth'] == 'accountant') {
                 echo '<a class="navbar-brand" style="color: #DF804C;" href="./index.php">FMS</a>';
-            }else{
+            } else {
                 echo '<a class="navbar-brand" style="color: #5BA877;" href="./index.php">FMS</a>';
             }
             ?>
@@ -134,8 +134,11 @@ if (isset($_POST['logout'])) {
         <header class="text-center p-5">
             <p class="display-4">View Item Page</p>
         </header>
-
-        <table class="table my-4">
+        <div class="search" id="search">
+            <p>Type in the input field to search the list for specific items:</p>
+            <input class="form-control" id="myInput" type="text" placeholder="Search.." style="width:30%;">
+        </div>
+        <table class="table my-4" id="myTable">
             <thead>
                 <tr style="border-top: 1px solid;">
                     <th scope="col">Item id</th>
@@ -159,8 +162,8 @@ if (isset($_POST['logout'])) {
                         $price = $row['price'];
 
                         echo '
-                        <tr>
-                          <th scope="row">' . $id . '</th>
+                        <tr id="myList">
+                          <td scope="row"><b>' . $id . '</b></td>
                           <td>' . $name . '</td>
                           <td>' . $type . '</td>
                           <td>' . $quantity . '</td>
@@ -168,7 +171,7 @@ if (isset($_POST['logout'])) {
                         </tr>
                         ';
                     }
-                }else{
+                } else {
                     echo '
                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                         <svg class="bi flex-shrink-0 me-1" role="img" aria-label="Danger:" style="width:25px; height:25px;">
@@ -211,6 +214,28 @@ if (isset($_POST['logout'])) {
 
         </div>
     </div>
+
+    <script>
+        // JavaScript code to filter the table based on user input
+        const searchInput = document.getElementById("myInput");
+        const tableRows = document.getElementById("myTable").getElementsByTagName("tr");
+
+        searchInput.addEventListener("input", function () {
+            const filter = searchInput.value.toLowerCase();
+            for (let i = 1; i < tableRows.length; i++) {
+                const cells = tableRows[i].getElementsByTagName("td");
+                let match = false;
+                for (let j = 0; j < cells.length; j++) {
+                    const cellText = cells[j].textContent.toLowerCase();
+                    if (cellText.includes(filter)) {
+                        match = true;
+                        break;
+                    }
+                }
+                tableRows[i].style.display = match ? "" : "none";
+            }
+        });
+    </script>
 </body>
 
 </html>

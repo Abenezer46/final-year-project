@@ -4,26 +4,26 @@ session_start();
 if (!isset($_SESSION['auth'])) {
     header('Location: login.php');
     exit;
-  }
-  
-  // Check if the auth session variable does not have the value "manager", "seller", or "accountant"
-  if ($_SESSION['auth'] !== 'seller' && $_SESSION['auth'] !== 'accountant') {
+}
+
+// Check if the auth session variable does not have the value "manager", "seller", or "accountant"
+if ($_SESSION['auth'] !== 'seller' && $_SESSION['auth'] !== 'accountant') {
     header('Location: login.php');
     exit;
-  }
+}
 
-  if (isset($_POST['logout'])) {
+if (isset($_POST['logout'])) {
     # code...
     echo 'logout';
     $id = $_SESSION['uid'];
-    
+
     $mydate = getdate(date("U"));
-          
+
     $outtime = "$mydate[hours]:$mydate[minutes] , $mydate[weekday], $mydate[month] $mydate[mday], $mydate[year]";
 
     $sql = "update `users` SET `outtime`='$outtime' where `uid` = '$id'";
     $result = mysqli_query($con, $sql);
-    if($result){
+    if ($result) {
         echo "hello";
         $_SESSION['auth'] = "";
         $_SESSION['uid'] = 0;
@@ -47,8 +47,8 @@ if (!isset($_SESSION['auth'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src='./js/main.js'></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src='./js/main.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -70,114 +70,140 @@ if ($_SESSION['auth'] == 'accountant') {
     # code...
     echo '<body class="managerPage p-3 m-0 border-0 bd-example m-0 border-0" style="background-color:#DF804C;">
     ';
-}else{
+} else {
     echo '<body class="sellerPage p-3 m-0 border-0 bd-example m-0 border-0" style="background-color: #585BB8;">
     ';
 }
 ?>
 
-    <nav class="navbar navbar-expand-lg" style="background-color:#fff; color:black; border-radius: 5px;">
-        <div class="container-fluid">
-            <?php
-            if ($_SESSION['auth'] == 'accountant') {
-                # code...
-                echo '<a class="navbar-brand" style="color:#DF804C; href="./index.php">FMS</a>
+<nav class="navbar navbar-expand-lg" style="background-color:#fff; color:black; border-radius: 5px;">
+    <div class="container-fluid">
+        <?php
+        if ($_SESSION['auth'] == 'accountant') {
+            # code...
+            echo '<a class="navbar-brand" style="color:#DF804C; href="./index.php">FMS</a>
                 ';
-            }else{
-                echo '<a class="navbar-brand" style="color: #585BB8;" href="./index.php">FMS</a>
+        } else {
+            echo '<a class="navbar-brand" style="color: #585BB8;" href="./index.php">FMS</a>
                 ';
-            }
-            ?>
-            
+        }
+        ?>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
-                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="color:#ffffff;">
 
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" style="color:black;">
-                            <?php
-                            echo ucfirst($_SESSION['auth']);
-                            ?>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disable" aria-current="page" href="#" style="color:black;">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="color:#ffffff;">
 
-                            <?php
-                            echo ucfirst($_SESSION['user']);
-                            ?>
-                        </a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" style="color:black;">
+                        <?php
+                        echo ucfirst($_SESSION['auth']);
+                        ?>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disable" aria-current="page" href="#" style="color:black;">
 
-                </ul>
-                <form class="d-flex" role="search" method="post">
-                    <button class="btn btn-danger" type="submit" name="logout">logout</button>
-                </form>
-            </div>
+                        <?php
+                        echo ucfirst($_SESSION['user']);
+                        ?>
+                    </a>
+                </li>
+
+            </ul>
+            <form class="d-flex" role="search" method="post">
+                <button class="btn btn-danger" type="submit" name="logout">logout</button>
+            </form>
         </div>
-    </nav>
-    <div class="container py-5">
-        <header class="text-center p-5">
-            <p class="display-4">View Sells</p>
-        </header>
+    </div>
+</nav>
+<div class="container py-5">
+    <header class="text-center p-5">
+        <p class="display-4">View Sells</p>
+    </header>
+    <form class="search" id="search" style="display: flex; gap:20px;">
+        <input type="text" class="form-control" id="myInput" name="myInput" style="width:30%;">
+        <button type="submit" class="btn btn-danger">filter</button>
+    </form>
+    <table class="table my-4" id="myTable">
+        <thead>
+            <tr style="border-top: 1px solid;">
+                <th scope="col">Sells id</th>
+                <th scope="col">Items</th>
+                <th scope="col">Date and Time of cells</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total price</th>
+                <th scope="col">seller</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $sql = 'select * from `sells`';
+            $result = mysqli_query($con, $sql);
+            if ($result && mysqli_affected_rows($con) > 0) {
+                $p = 0;
+                $quant = 0;
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $id = $row['id'];
+                    $items = $row['items'];
+                    $date = $row['date_time'];
+                    $amount = $row['amount'];
+                    $price = $row['total_price'];
+                    $user = $row['user'];
 
-        <table class="table my-4">
-            <thead>
-                <tr style="border-top: 1px solid;">
-                    <th scope="col">Sells id</th>
-                    <th scope="col">Items</th>
-                    <th scope="col">Date and Time of cells</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Total price</th>
-                    <th scope="col">users</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $sql = 'select * from `sells`';
-                $result = mysqli_query($con, $sql);
-                if ($result && mysqli_affected_rows($con) > 0) {
+                    $quant = $quant + $amount;
+                    $p = $p + $p;
 
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $id = $row['id'];
-                        $items = $row['items'];
-                        $date = $row['date_time'];
-                        $amount = $row['amount'];
-                        $price = $row['total_price'];
-                        $user = $row['user'];
+                    $p = $quant * $p;
 
-                        $items = json_decode($items);
+                    $items = json_decode($items);
 
-                        $item_ids = array();
+                    $item_ids = array();
 
-                        foreach ($items as $item) {
-                            # code...
-                            $item_ids[] = $item->item_id;
-                        }
-                        $ids = implode(",", $item_ids);
-                        
-                        echo '
+                    foreach ($items as $item) {
+                        # code...
+                        $item_ids[] = $item->item_id;
+                    }
+                    $ids = implode(",", $item_ids);
+
+                    echo '
                         <tr>
-                          <th scope="row">' . $id . '</th>
+                          <td scope="row"><b>' . $id . '</b></td>
                           ';
-                        echo '
+                    echo '
                           <td>' . $ids . '</td>
                           ';
 
-                        echo '
+                    echo '
                           <td>' . $date . '</td>
                           <td>' . $amount . '</td>
                           <td>' . $price . '</td>
                           <td>' . $user . '</td>
                         </tr>
                         ';
-                    }
-                }else{
-                    echo '
+                }
+                echo '
+                <tr style="border-top: 1px solid; border-button: 1px solid red;">
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+                <tr style="border-top: 1px solid red;">
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th>Total Price</th>
+                  <th>' . $price . '</th>
+                  <th></th>
+                </tr>';
+
+            } else {
+                echo '
                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                         <svg class="bi flex-shrink-0 me-1" role="img" aria-label="Danger:" style="width:25px; height:25px;">
                         <use xlink:href="#exclamation-triangle-fill" />
@@ -187,31 +213,97 @@ if ($_SESSION['auth'] == 'accountant') {
                          </div>
                     </div>
                     ';
-                }
-                ?>
-            </tbody>
-        </table>
-        <div>
-            <?php
-            if (isset($_GET['accountant'])) {
-                # code...
-                echo '
+            }
+            ?>
+        </tbody>
+    </table>
+    <div>
+        <?php
+        if (isset($_GET['accountant'])) {
+            # code...
+            echo '
                     <a href="../accountantPage.php" class="btn btn-pri">
                       Go back
                     </a>
                ';
-            } else {
-                echo '
+        } else {
+            echo '
                     <a href="../sellerPage.php" class="btn btn-pri">
                         Go back
                     </a>
                 ';
-            }
-            ?>
+        }
+        ?>
 
 
-        </div>
     </div>
+</div>
+<script>
+    // JavaScript code to filter the table based on user input
+    const searchInput = document.getElementById("myInput");
+    const tableRows = document.getElementById("myTable").getElementsByTagName("tr");
+
+    searchInput.addEventListener("input", function () {
+        const filter = searchInput.value.toLowerCase();
+        for (let i = 1; i < tableRows.length; i++) {
+            const cells = tableRows[i].getElementsByTagName("td");
+            let match = false;
+            for (let j = 0; j < cells.length; j++) {
+                const cellText = cells[j].textContent.toLowerCase();
+                if (cellText.includes(filter)) {
+                    match = true;
+                    break;
+                }
+            }
+            tableRows[i].style.display = match ? "" : "none";
+        }
+    });
+
+    // JavaScript code to filter the table based on date range
+    const now = new Date();
+    const currentWeekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 1); // Start of current week
+    const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1); // Start of current month
+    const rows = document.querySelectorAll("#myTable tbody tr");
+
+    function filterRows(filter) {
+        for (let i = 0; i < rows.length; i++) {
+            const dateStr = rows[i].querySelector("td:nth-of-type(2)").textContent;
+            const dateParts = dateStr.split(" ");
+            const datePart = dateParts[0].split("/");
+            const timePart = dateParts[1];
+            const amPmPart = dateParts[2];
+            const formattedDate = `${datePart[1]}/${datePart[0]}/${datePart[2]} ${timePart} ${amPmPart}`;
+            const date = new Date(formattedDate);
+            if (filter === "week" && date >= currentWeekStart && date <= now) {
+                rows[i].style.display = "";
+            } else if (filter === "month" && date >= currentMonthStart && date <= now) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
+
+    searchInput.addEventListener("input", function () {
+        const filter = searchInput.value.toLowerCase();
+        if (filter === "week" || filter === "month") {
+            filterRows(filter);
+        } else {
+            for (let i = 1; i < tableRows.length; i++) {
+                const cells = tableRows[i].getElementsByTagName("td");
+                let match = false;
+                for (let j = 0; j < cells.length; j++) {
+                    const cellText = cells[j].textContent.toLowerCase();
+                    if (cellText.includes(filter)) {
+                        match = true;
+                        break;
+                    }
+                }
+                tableRows[i].style.display = match ? "" : "none";
+            }
+        }
+    });
+</script>
 </body>
 
 </html>
